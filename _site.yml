@@ -2,9 +2,10 @@ name: "Yi Sun's personal website"
 output_dir: "."
 navbar:
   title: "Home"
-  right:
+  left:
     - text: "About"
       href: about.html
+  right:
     - icon: fa-school fa-lg
       href: https://www.cuimc.columbia.edu/
 output:
