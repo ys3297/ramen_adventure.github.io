@@ -1,0 +1,12 @@
+name: "Yi Sun's personal website"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "About"
+      href: about.html
+    - icon: fa-school fa-lg
+      href: https://www.cuimc.columbia.edu/
+output:
+  html_document:
+    theme: united
