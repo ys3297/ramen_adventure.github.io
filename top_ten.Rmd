@@ -31,8 +31,8 @@ tidy_ramen =
 ```
 
 ## Top 10 lists
-First, let's have a look on the top 10 ramens for each year from 2012-2016!  
-  
+First, let's have a look on the top 10 ramens for each year from 2012-2016!
+
 ### 2016
 
 ```{r, echo=FALSE}
@@ -97,5 +97,5 @@ top_ten_2012 =
 top_ten_2012
 ```
 
-Of course, you can find that all the lists above are not complete. The reason might be Alexsey didn't complete the data entry. However, after checking the orginal [Top 10 lists](https://www.theramenrater.com/top-ten-lists/) and comparing them with what we have in the dataset, we found that only one year and rank could be recorded for those ramens which were listed for multiple times in the top 10 lists for different years in the raw dataset.  
+Of course, you can find that all the lists above are not complete. The reason might be Alexsey didn't complete the data entry. However, after checking the original [Top 10 lists](https://www.theramenrater.com/top-ten-lists/) and comparing them with what we have in the dataset, we found that only one year and rank could be recorded for those ramens which were listed for multiple times in the top 10 lists for different years in the raw dataset.  
 Anyway, we could only use this page for practice purpose. If you really want to know the complete top 10 lists, you can go directly to [The Ramen Rater](https://www.theramenrater.com/) and find more complete and updated information.
