@@ -7,7 +7,7 @@ output:
 ### Let's find out the best and worst ramens (a.k.a instant noodles) and explore some factors that may affect the rating of ramens!
 Simin Ling (sl4658), Yi Sun (ys3297), Yiting Li (yl4362), Hanran Wei (hw2765)
 
-<img src="./ramen.jpg">
+<img src="./pictures/ramen.jpg">
 
 
 
