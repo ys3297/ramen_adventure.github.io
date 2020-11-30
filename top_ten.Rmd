@@ -27,7 +27,13 @@ scale_fill_discrete = scale_fill_viridis_d
 tidy_ramen = 
   read_csv("./ramen-ratings.csv") %>% 
   janitor::clean_names() %>% 
-  separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE)
+  separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
+  mutate(
+    style = factor(style),
+    country = factor(country),
+    brand = factor(brand),
+    stars = as.numeric(stars)
+  )
 ```
 
 ## Top 10 lists
@@ -99,3 +105,55 @@ top_ten_2012
 
 Of course, you can find that all the lists above are not complete. The reason might be Alexsey didn't complete the data entry. However, after checking the original [Top 10 lists](https://www.theramenrater.com/top-ten-lists/) and comparing them with what we have in the dataset, we found that only one year and rank could be recorded for those ramens which were listed for multiple times in the top 10 lists for different years in the raw dataset.  
 Anyway, we could only use this page for practice purpose. If you really want to know the complete top 10 lists, you can go directly to [The Ramen Rater](https://www.theramenrater.com/) and find more complete and updated information.
+
+## By country/region
+
+Next, let's see the number of top 10 ramen varieties produced by each country/region.
+
+```{r, echo=FALSE}
+top_country_bar = 
+  tidy_ramen %>% 
+  drop_na(rank) %>% 
+  count(country) %>% 
+  mutate(country = fct_reorder(country, n)) %>% 
+  ggplot(aes(x = country, y = n, fill = country)) +
+    geom_col() +
+    labs(
+      title = "Number of top 10 ramen varieties produced by each country",
+      y = "Number of top 10 ramen varieties",
+      x = "Country"
+    ) +
+    theme(legend.position = "none")
+
+top_country_bar
+```
+
+We can see that Singapore was the country that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Singapore") %>% nrow()`), followed by Japan (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Japan") %>% nrow()`) and Malaysia (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Malaysia") %>% nrow()`).
+
+## By brand
+
+Finally, let's see the number of top 10 ramen varieties produced by each brand.
+
+```{r, echo=FALSE}
+top_brand_bar = 
+  tidy_ramen %>% 
+  drop_na(rank) %>% 
+  count(brand) %>% 
+  mutate(brand = fct_reorder(brand, n)) %>% 
+  ggplot(aes(x = brand, y = n, fill = brand)) +
+    geom_col() +
+    labs(
+      title = "Number of top 10 ramen varieties produced by each brand",
+      y = "Number of top 10 ramen varieties",
+      x = "Brand"
+    ) +
+    theme(legend.position = "none", axis.text.x = element_text(angle = 30))
+
+top_brand_bar
+```
+
+We can see that Prima Taste was the brand that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "Prima Taste") %>% nrow()`), followed by Indomie (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "Indomie") %>% nrow()`), Mama (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "Mama") %>% nrow()`), MyKuali (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "MyKuali") %>% nrow()`), and Nongshim (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "Nongshim") %>% nrow()`).
+
+## Conclusion
+
+From the tables and graphs above, we can see that Hans Lienesch, the ramen rater, had a strong preference for instant noodles with Singapore, or more general, Southeast Asia taste from 2012 to 2016. If you have the same preference, you can use the information above or the original [Top 10 lists](https://www.theramenrater.com/top-ten-lists/) for reference when purchasing instant noodles.
