@@ -5,6 +5,8 @@ navbar:
   right:
     - text: "About"
       href: about.html
+    - text: "Top 10"
+      href: top_ten.html   
     - icon: fa-school fa-lg
       href: https://www.cuimc.columbia.edu/
 output:
