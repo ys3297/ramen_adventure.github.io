@@ -31,12 +31,16 @@ There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countr
 ## Top Ramen Produce Countries
 The top three countries that produced the most ramens are Japan (n = 352), USA (n = 323), and South Korea (n = 309).
 
-```{r, echo=FALSE, warning=FALSE}
-tidy_ramen %>%
+```{r, echo=FALSE, message=FALSE}
+top3_country = 
+  tidy_ramen %>%
   group_by(country) %>%
   summarize(count = n()) %>%
   arrange(desc(count)) %>%
-  top_n(3)
+  top_n(3) %>% 
+  knitr::kable()
+
+top3_country
 ```
 
 
