@@ -58,14 +58,15 @@ most_common_5 =
 
 most_common_5
 ```
+
+As shown in the above table, *Nissin* has the widest variety with 381 types of flavor among all of the brands in this dataset. *Paldo* has the highest average stars among these 5 brands. *Maruchan* has the lowest average stars among these 5 brands.
+
 <img src="pictures/nissin.jpg" style="width:15%"> <img src="pictures/nongshim.jpg" style="width:15%"> <img src="pictures/maruchan.png" style="width:15%"> <img src="pictures/mama.jpg" style="width:15%"> <img src="pictures/paldo.png" style="width:15%">
 
-We will focus on these 5 brands in the following adventure.
-
-### Distribution of stars 
+Below are the distribution plots of stars for these 5 most common brands
 
 ```{r, echo=FALSE, message=FALSE}
-distri_plot = 
+distri_most_common = 
   tidy_ramen %>%
   drop_na(stars) %>%
   filter(brand %in% c("Paldo", "Mama", "Maruchan", "Nongshim", "Nissin")) %>%
@@ -77,8 +78,48 @@ distri_plot =
     y = "Brand Name"
   )
 
-distri_plot
+distri_most_common
 ```
 
-The above distribution plot shows that all these 5 brands have a peak at around **4 star**. For *Nissin*, *Nongshim*, *Mama*, and *Paldo*, they also have a second peak at around **5 star**.
+The above plots show that all these 5 brands have a peak at around **4 star**. 
+For *Nissin*, *Nongshim*, *Mama*, and *Paldo*, they also have a second peak at around **5 star**.
 
+## Brands with only 1 flavor
+
+```{r, echo=FALSE, message=FALSE}
+least_common = 
+  tidy_ramen %>%
+  drop_na(stars) %>%
+  group_by(brand) %>%
+  mutate(num_brand = n()) %>%
+  filter(num_brand == 1) %>%
+  select(brand, num_brand, stars)
+```
+
+In this dataset, there are `r nrow(least_common)` brands which only have one flavor. 
+
+Below is the histogram plot of stars for these brands with only 1 flavor.
+
+```{r, echo=FALSE, message=FALSE}
+least_common_histo = 
+  least_common %>%
+  ggplot(aes(x = stars)) + 
+  geom_histogram()
+
+least_common_histo
+```
+
+As shown in the histogram plot, most of brands have higher or equal to **3 star**. 
+
+Compared to the following histogram plot for all the brands in the dataset, the stars of least common brands distribute more evenly, while the average stars of all the brands have an apparent peak at **4 star**.
+```{r, echo=FALSE, message=FALSE}
+overall_histo = 
+  tidy_ramen %>%
+  drop_na(stars) %>%
+  group_by(brand) %>%
+  mutate(avg_stars = mean(stars)) %>%
+  ggplot(aes(x = avg_stars)) + 
+  geom_histogram()
+
+overall_histo
+```
