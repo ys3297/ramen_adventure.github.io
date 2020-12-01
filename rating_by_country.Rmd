@@ -9,6 +9,8 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(dplyr)
+library(ggridges)
+
 ```
 
 ```{r, include=FALSE}
@@ -46,85 +48,30 @@ top3_country
 
 ### Rating Distribution among top ramen produce countries
 Now let's take a closer look at the rating distribution among the top three ramen produce countries!
-
-First, we have a combined scatter plot graph showing the ramen rating distribution among Japan, USA, and South Korea.
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE}
 tidy_ramen_top3 = 
   tidy_ramen %>%
   filter(country == c("Japan", "USA", "South Korea")) %>%
   drop_na(stars) %>%
-  ggplot(aes(x = variety, y = stars)) + 
-  geom_point(aes(color = country), alpha = 0.5) +
+  ggplot(aes(x = stars, y = country, fill = country)) + 
+  geom_density_ridges(scale = .85) +
   labs(
     title = "Ramen rating distribution among Japan, USA, and South Korea",
-    x = "Variety of Ramen",
-    y = "Ramen Rating Score"
-  ) +
-  theme(axis.text.x = element_blank())
+    x = "Stars (0-5)",
+    y = "Country"
+  )
 
 tidy_ramen_top3
 ```
 
+According to the graph, it appears that most ramens produced by these countries have a peak rating score around 4. South Korea also has a second but smaller peak at score 5. Comparing to South Korea and USA, Japan has relatively higher rating scores with more rating scores at 5. 
 
-The scatter plot may look like a chaos and is hard to observe the ramen rating distribution in each country, so let's take a look at the ramen rating distribution scatter plot for each country. 
-
-```{r, echo=FALSE, warning=FALSE}
-tidy_ramen_jp = 
-  tidy_ramen %>%
-  filter(country == "Japan") %>%
-  drop_na(stars) %>%
-  ggplot(aes(x = variety, y = stars)) + 
-  geom_point(color = 'red', aes(alpha = 0.5)) +
-  labs(
-    title = "Ramen rating distribution in Japan",
-    x = "Variety of Ramen",
-    y = "Ramen Rating Score"
-  ) +
-  theme(axis.text.x = element_blank(), legend.position = "none")
-  
-tidy_ramen_jp
-```
-
-
-```{r, echo=FALSE, warning=FALSE}
-tidy_ramen_us = 
-  tidy_ramen %>%
-  filter(country == "USA") %>%  
-  drop_na(stars) %>%
-  ggplot(aes(x = variety, y = stars)) + 
-  geom_point(color = 'blue', aes(alpha = 0.5)) +
-  labs(
-    title = "Ramen rating distribution in USA",
-    x = "Variety of Ramen",
-    y = "Ramen Rating Score"
-  ) +
-  theme(axis.text.x = element_blank(), legend.position = "none")
-  
-tidy_ramen_us
-```
-
-```{r, echo=FALSE, warning=FALSE}
-tidy_ramen_sk = 
-  tidy_ramen %>%
-  filter(country == "South Korea") %>%
-  drop_na(stars) %>%
-  ggplot(aes(x = variety, y = stars)) + 
-  geom_point(color = 'darkgreen', aes(alpha = 0.5)) +
-  labs(
-    title = "Ramen rating distribution in South Korea",
-    x = "Variety of Ramen",
-    y = "Ramen Rating Score"
-  ) +
-  theme(axis.text.x = element_blank(), legend.position = "none")
-  
-tidy_ramen_sk
-```
 
 
 ## Top Average Rating Countries
 
 What are the top three countries that have the highest average rating scores on their ramens? Do you have any guess?
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE}
 tidy_ramen %>%
   group_by(country) %>%
   drop_na(stars) %>%
@@ -141,7 +88,7 @@ Does the result differ from your expectation? It appears that Brazil had the hig
 ## Bottom Average Rating Countries
 
 What about the bottom three countries that have the lowest average rating scores on their ramens?
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE}
 tidy_ramen %>%
   group_by(country) %>%
   drop_na(stars) %>%
