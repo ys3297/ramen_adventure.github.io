@@ -1,0 +1,84 @@
+---
+title: "Rating by Brands"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(dplyr)
+library(ggridges)
+opts_chunk$set(
+	fig.width = 10, 
+  fig.asp = .6,
+  out.width = "90%"
+)
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+```{r clean, include=FALSE}
+tidy_ramen = 
+  read_csv("./ramen-ratings.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
+  mutate(
+    style = factor(style),
+    country = factor(country),
+    brand = factor(brand),
+    stars = as.numeric(stars)
+  )
+```
+
+---
+## Background Introduction 
+In this Ramen dataset, there are **`r nrow(count(tidy_ramen, brand))`** brands.
+
+## 5 Most common brands 
+
+Here are the 5 most common brands, their number of varieties, and their average stars.
+```{r, echo=FALSE, message=FALSE}
+most_common_5 = 
+  tidy_ramen %>%
+  drop_na(stars) %>%
+  group_by(brand) %>%
+  summarize(num_brand = n(),
+            avg_star = mean(stars)) %>%
+  arrange(desc(num_brand), by_group = TRUE) %>%
+  head(5) %>%
+  knitr::kable(digits = 2)
+
+most_common_5
+```
+<img src="pictures/nissin.jpg" style="width:15%"> <img src="pictures/nongshim.jpg" style="width:15%"> <img src="pictures/maruchan.png" style="width:15%"> <img src="pictures/mama.jpg" style="width:15%"> <img src="pictures/paldo.png" style="width:15%">
+
+We will focus on these 5 brands in the following adventure.
+
+### Distribution of stars 
+
+```{r, echo=FALSE, message=FALSE}
+distri_plot = 
+  tidy_ramen %>%
+  drop_na(stars) %>%
+  filter(brand %in% c("Paldo", "Mama", "Maruchan", "Nongshim", "Nissin")) %>%
+  mutate(brand = forcats::fct_relevel(brand, c("Paldo", "Mama", "Maruchan", "Nongshim", "Nissin"))) %>% 
+  ggplot(aes(x = stars, y = brand)) +
+  geom_density_ridges(scale = .85) +
+  labs(
+    x = "Stars (0-5)",
+    y = "Brand Name"
+  )
+
+distri_plot
+```
+
+The above distribution plot shows that all these 5 brands have a peak at around **4 star**. For *Nissin*, *Nongshim*, *Mama*, and *Paldo*, they also have a second peak at around **5 star**.
+
