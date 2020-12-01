@@ -26,12 +26,34 @@ tidy_ramen =
   )
 ```
 
+<img src="pictures/ramen_world.jpg">  
+
 ## Background Introduction 
 There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countries included in our Ramen dataset, with a total of `r nrow(tidy_ramen)` ramen varieties. 
 
 
 ## Top Ramen Produce Countries
-The top three countries that produced the most ramens are Japan (n = 352), USA (n = 323), and South Korea (n = 309).
+Can you imagine how popular ramen is in these countries?!
+```{r, echo=FALSE, message=FALSE}
+top10_country = 
+  tidy_ramen %>%
+  group_by(country) %>%
+  summarize(count = n()) %>%
+  arrange(desc(count)) %>%
+  top_n(10) %>% 
+  ggplot(aes(x = country, y = count, fill = country)) +
+    geom_col() +
+    labs(
+      title = "Top 10 ramen produce countries",
+      y = "Count of ramen varieties",
+      x = "Country"
+    ) +
+    theme(legend.position = "none", axis.text.x = element_text(angle = 30))
+
+top10_country
+```
+
+The top three countries that produced the most ramens are Japan (n = 352), USA (n = 323) and South Korea (n = 309), with over 300 varieties of ramen recorded!
 
 ```{r, echo=FALSE, message=FALSE}
 top3_country = 
@@ -46,7 +68,7 @@ top3_country
 ```
 
 
-### Rating Distribution among top ramen produce countries
+### Rating Distribution among Top Three
 Now let's take a closer look at the rating distribution among the top three ramen produce countries!
 ```{r, echo=FALSE, message=FALSE}
 tidy_ramen_top3 = 
@@ -71,6 +93,10 @@ According to the graph, it appears that most ramens produced by these countries 
 ## Top Average Rating Countries
 
 What are the top three countries that have the highest average rating scores on their ramens? Do you have any guess?
+
+<img src="pictures/question.jpg">  
+
+Here is the result!
 ```{r, echo=FALSE, message=FALSE}
 tidy_ramen %>%
   group_by(country) %>%
