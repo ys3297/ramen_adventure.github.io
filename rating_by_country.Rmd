@@ -31,7 +31,7 @@ tidy_ramen =
 <center><img src="pictures/ramen_world.jpg"></center>  
 
 ## Background Introduction 
-There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countries included in our Ramen dataset, with a total of `r nrow(tidy_ramen)` ramen varieties. 
+There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countries included in our Ramen dataset. 
 
 
 ## Top Ramen Produce Countries
