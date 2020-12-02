@@ -99,28 +99,3 @@ least_common =
 
 In this dataset, there are `r nrow(least_common)` brands which only have one flavor. 
 
-Below is the histogram plot of stars for these brands with only 1 flavor.
-
-```{r, echo=FALSE, message=FALSE}
-least_common_histo = 
-  least_common %>%
-  ggplot(aes(x = stars)) + 
-  geom_histogram()
-
-least_common_histo
-```
-
-As shown in the histogram plot, most of brands have higher or equal to **3 star**. 
-
-Compared to the following histogram plot for all the brands in the dataset, the stars of least common brands distribute more evenly, while the average stars of all the brands have an apparent peak at **4 star**.
-```{r, echo=FALSE, message=FALSE}
-overall_histo = 
-  tidy_ramen %>%
-  drop_na(stars) %>%
-  group_by(brand) %>%
-  mutate(avg_stars = mean(stars)) %>%
-  ggplot(aes(x = avg_stars)) + 
-  geom_histogram()
-
-overall_histo
-```
