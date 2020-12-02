@@ -11,6 +11,8 @@ library(tidyverse)
 library(knitr)
 library(dplyr)
 library(ggridges)
+library(plotly)
+
 opts_chunk$set(
 	fig.width = 10, 
   fig.asp = .6,
@@ -42,24 +44,23 @@ tidy_ramen =
 ## Background Introduction 
 In this Ramen dataset, there are **`r nrow(count(tidy_ramen, brand))`** brands.
 
-## 5 Most common brands 
+## Brands with more than 30 varieties
 
-Here are the 5 most common brands, their number of varieties, and their average stars.
-```{r, echo=FALSE, message=FALSE}
-most_common_5 = 
+Here are brands which have more than 30 varieties!
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+most_common = 
   tidy_ramen %>%
-  drop_na(stars) %>%
-  group_by(brand) %>%
-  summarize(num_brand = n(),
-            avg_star = mean(stars)) %>%
-  arrange(desc(num_brand), by_group = TRUE) %>%
-  head(5) %>%
-  knitr::kable(digits = 2)
+  count(brand) %>%
+  mutate(brand = fct_reorder(brand, n)) %>%
+  filter(n > 30) %>%
+  plot_ly(x = ~brand, y = ~n, color = ~brand, type = "bar", colors = "viridis") 
 
-most_common_5
+most_common
 ```
 
-As shown in the above table, *Nissin* has the widest variety with 381 types of flavor among all of the brands in this dataset. *Paldo* has the highest average stars among these 5 brands. *Maruchan* has the lowest average stars among these 5 brands.
+As shown in the above plot, *Nissin* has the widest variety with 381 types of flavor among all of the brands in this dataset. 
+
+The 5 most common brands are:
 
 <img src="pictures/nissin.jpg" style="width:15%"> <img src="pictures/nongshim.jpg" style="width:15%"> <img src="pictures/maruchan.png" style="width:15%"> <img src="pictures/mama.jpg" style="width:15%"> <img src="pictures/paldo.png" style="width:15%">
 
