@@ -122,6 +122,10 @@ top_country_bar =
   mutate(country = fct_reorder(country, n)) %>% 
   ggplot(aes(x = country, y = n, fill = country)) +
     geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 0.125
+    ) + 
     labs(
       title = "Number of top 10 ramen varieties produced by each country",
       y = "Number of top 10 ramen varieties",
@@ -145,6 +149,10 @@ top_brand_bar =
   mutate(brand = fct_reorder(brand, n)) %>% 
   ggplot(aes(x = brand, y = n, fill = brand)) +
     geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 0.125
+    ) + 
     labs(
       title = "Number of top 10 ramen varieties produced by each brand",
       y = "Number of top 10 ramen varieties",
