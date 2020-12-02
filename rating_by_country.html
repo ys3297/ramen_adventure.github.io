@@ -25,6 +25,13 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -387,12 +394,12 @@ div.tocify {
 <p><img src="pictures/ramen_world.jpg"></p>
 <div id="background-introduction" class="section level2">
 <h2>Background Introduction</h2>
-<p>There are 38 countries included in our Ramen dataset, with a total of 2580 ramen varieties.</p>
+<p>There are 36 countries included in our Ramen dataset, with a total of 2580 ramen varieties.</p>
 </div>
 <div id="top-ramen-produce-countries" class="section level2">
 <h2>Top Ramen Produce Countries</h2>
 <p>Can you imagine how popular ramen is in these countries?! <img src="rating_by_country_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>The top three countries that produced the most ramens are Japan (n = 352), USA (n = 323) and South Korea (n = 309), with over 300 varieties of ramen recorded!</p>
+<p>The top four countries that produced the most ramens are China (n = 530), Japan (n = 352), USA (n = 323) and South Korea (n = 309), with over 300 varieties of ramen recorded! The count of ramen varieties produced by China far outweighs the ramen varieties in other countries.</p>
 <table>
 <thead>
 <tr class="header">
@@ -402,30 +409,37 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left">China</td>
+<td align="right">530</td>
+</tr>
+<tr class="even">
 <td align="left">Japan</td>
 <td align="right">352</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">USA</td>
 <td align="right">323</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">South Korea</td>
 <td align="right">309</td>
 </tr>
 </tbody>
 </table>
-<div id="rating-distribution-among-top-three" class="section level3">
-<h3>Rating Distribution among Top Three</h3>
-<p>Now let’s take a closer look at the rating distribution among the top three ramen produce countries! <img src="rating_by_country_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>According to the graph, it appears that most ramens produced by these countries have a peak rating score around 4. South Korea also has a second but smaller peak at score 5. Comparing to South Korea and USA, Japan has relatively higher rating scores with more rating scores at 5.</p>
+<div id="rating-distribution-among-top-three-ramen-produce-countries" class="section level3">
+<h3>Rating Distribution among Top Three Ramen Produce Countries</h3>
+<p>Now let’s take a closer look at the rating distribution among the top four ramen produce countries! <img src="rating_by_country_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>According to the graph, it appears that most ramens produced by China, South Korea, and USA have a peak of rating scores around 4 stars and a second but smaller peak at score 5. Among all four countries, Japan has relatively higher rating scores with more rating scores at score around 4 to 5 stars.</p>
 </div>
 </div>
 <div id="top-average-rating-countries" class="section level2">
 <h2>Top Average Rating Countries</h2>
-<p>What are the top three countries that have the highest average rating scores on their ramens? Do you have any guess?</p>
+<p>What are the top countries that have the highest average rating scores on their ramens? Do you have any guess?</p>
 <p><img src="pictures/question.jpg"></p>
 <p>Here is the result!</p>
+<p>Let’s first take a look at the top 10 countries with the highest average rating scores :) (NOTE: Check out the average rating score for each country by moving your mouse to each bar) <div id="htmlwidget-af19d9deef4f9ef92dd9" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-af19d9deef4f9ef92dd9">{"x":{"visdat":{"17d331964e5c0":["function () ","plotlyVisDat"]},"cur_data":"17d331964e5c0","attrs":{"17d331964e5c0":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"country","type":"category","categoryorder":"array","categoryarray":["South Korea","Fiji","Myanmar","Japan","Indonesia","Singapore","Malaysia","Cambodia","Sarawak","Brazil","Australia","Bangladesh","Canada","China","Colombia","Dubai","Estonia","Finland","Germany","Ghana","Holland","Hungary","India","Mexico","Nepal","Netherlands","Nigeria","Pakistan","Philippines","Poland","Sweden","Thailand","UK","United States","USA","Vietnam"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"avg_rating"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["South Korea"],"y":[3.79055374592834],"type":"bar","name":"South Korea","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Fiji"],"y":[3.875],"type":"bar","name":"Fiji","marker":{"color":"rgba(147,186,151,1)","line":{"color":"rgba(147,186,151,1)"}},"textfont":{"color":"rgba(147,186,151,1)"},"error_y":{"color":"rgba(147,186,151,1)"},"error_x":{"color":"rgba(147,186,151,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Myanmar"],"y":[3.94642857142857],"type":"bar","name":"Myanmar","marker":{"color":"rgba(179,176,138,1)","line":{"color":"rgba(179,176,138,1)"}},"textfont":{"color":"rgba(179,176,138,1)"},"error_y":{"color":"rgba(179,176,138,1)"},"error_x":{"color":"rgba(179,176,138,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Japan"],"y":[3.98160511363636],"type":"bar","name":"Japan","marker":{"color":"rgba(207,166,125,1)","line":{"color":"rgba(207,166,125,1)"}},"textfont":{"color":"rgba(207,166,125,1)"},"error_y":{"color":"rgba(207,166,125,1)"},"error_x":{"color":"rgba(207,166,125,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Indonesia"],"y":[4.06746031746032],"type":"bar","name":"Indonesia","marker":{"color":"rgba(230,155,111,1)","line":{"color":"rgba(230,155,111,1)"}},"textfont":{"color":"rgba(230,155,111,1)"},"error_y":{"color":"rgba(230,155,111,1)"},"error_x":{"color":"rgba(230,155,111,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Singapore"],"y":[4.12614678899083],"type":"bar","name":"Singapore","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Malaysia"],"y":[4.1541935483871],"type":"bar","name":"Malaysia","marker":{"color":"rgba(235,145,120,1)","line":{"color":"rgba(235,145,120,1)"}},"textfont":{"color":"rgba(235,145,120,1)"},"error_y":{"color":"rgba(235,145,120,1)"},"error_x":{"color":"rgba(235,145,120,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Cambodia"],"y":[4.2],"type":"bar","name":"Cambodia","marker":{"color":"rgba(217,150,141,1)","line":{"color":"rgba(217,150,141,1)"}},"textfont":{"color":"rgba(217,150,141,1)"},"error_y":{"color":"rgba(217,150,141,1)"},"error_x":{"color":"rgba(217,150,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Sarawak"],"y":[4.33333333333333],"type":"bar","name":"Sarawak","marker":{"color":"rgba(196,153,161,1)","line":{"color":"rgba(196,153,161,1)"}},"textfont":{"color":"rgba(196,153,161,1)"},"error_y":{"color":"rgba(196,153,161,1)"},"error_x":{"color":"rgba(196,153,161,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Brazil"],"y":[4.35],"type":"bar","name":"Brazil","marker":{"color":"rgba(172,157,182,1)","line":{"color":"rgba(172,157,182,1)"}},"textfont":{"color":"rgba(172,157,182,1)"},"error_y":{"color":"rgba(172,157,182,1)"},"error_x":{"color":"rgba(172,157,182,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script></p>
+<p>Does the result differ from your expectation? It appears that the top ten average rating countries have average rating scores between the range of 3.5 and 4.5 out of 5 stars. Brazil had the highest average rating score (4.35 out of 5) among all countries, followed by Sarawak (score 4.33 out of 5) and Cambodia (score 4.20 out of 5). These countries produced ramens with higher quality (better taste) despite that they were not the top ramen producers in quantity.</p>
 <table>
 <thead>
 <tr class="header">
@@ -448,11 +462,13 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>Does the result differ from your expectation? It appears that Brazil had the highest average rating score (4.35 out of 5) among all countries, followed by Sarawak (score 4.33 out of 5) and Cambodia (score 4.20 out of 5).</p>
 </div>
 <div id="bottom-average-rating-countries" class="section level2">
 <h2>Bottom Average Rating Countries</h2>
-<p>What about the bottom three countries that have the lowest average rating scores on their ramens?</p>
+<p>What about the bottom countries that have the lowest average rating scores on their ramens?</p>
+<p>Check out the bottom 10 countries with the lowest average rating scores below! (NOTE: Check out the average rating score for each country by moving your mouse to each bar) <div id="htmlwidget-fc5f5cd4f4c90d3c33b0" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fc5f5cd4f4c90d3c33b0">{"x":{"visdat":{"17d332053dc9b":["function () ","plotlyVisDat"]},"cur_data":"17d332053dc9b","attrs":{"17d332053dc9b":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"country","type":"category","categoryorder":"array","categoryarray":["Nigeria","Canada","Netherlands","UK","Pakistan","Australia","Vietnam","Sweden","Colombia","Philippines","Bangladesh","Brazil","Cambodia","China","Dubai","Estonia","Fiji","Finland","Germany","Ghana","Holland","Hungary","India","Indonesia","Japan","Malaysia","Mexico","Myanmar","Nepal","Poland","Sarawak","Singapore","South Korea","Thailand","United States","USA"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"avg_rating"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Nigeria"],"y":[1.5],"type":"bar","name":"Nigeria","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Canada"],"y":[2.24390243902439],"type":"bar","name":"Canada","marker":{"color":"rgba(147,186,151,1)","line":{"color":"rgba(147,186,151,1)"}},"textfont":{"color":"rgba(147,186,151,1)"},"error_y":{"color":"rgba(147,186,151,1)"},"error_x":{"color":"rgba(147,186,151,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Netherlands"],"y":[2.48333333333333],"type":"bar","name":"Netherlands","marker":{"color":"rgba(179,176,138,1)","line":{"color":"rgba(179,176,138,1)"}},"textfont":{"color":"rgba(179,176,138,1)"},"error_y":{"color":"rgba(179,176,138,1)"},"error_x":{"color":"rgba(179,176,138,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["UK"],"y":[2.99710144927536],"type":"bar","name":"UK","marker":{"color":"rgba(207,166,125,1)","line":{"color":"rgba(207,166,125,1)"}},"textfont":{"color":"rgba(207,166,125,1)"},"error_y":{"color":"rgba(207,166,125,1)"},"error_x":{"color":"rgba(207,166,125,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Pakistan"],"y":[3],"type":"bar","name":"Pakistan","marker":{"color":"rgba(230,155,111,1)","line":{"color":"rgba(230,155,111,1)"}},"textfont":{"color":"rgba(230,155,111,1)"},"error_y":{"color":"rgba(230,155,111,1)"},"error_x":{"color":"rgba(230,155,111,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Australia"],"y":[3.13863636363636],"type":"bar","name":"Australia","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Vietnam"],"y":[3.18796296296296],"type":"bar","name":"Vietnam","marker":{"color":"rgba(235,145,120,1)","line":{"color":"rgba(235,145,120,1)"}},"textfont":{"color":"rgba(235,145,120,1)"},"error_y":{"color":"rgba(235,145,120,1)"},"error_x":{"color":"rgba(235,145,120,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Sweden"],"y":[3.25],"type":"bar","name":"Sweden","marker":{"color":"rgba(217,150,141,1)","line":{"color":"rgba(217,150,141,1)"}},"textfont":{"color":"rgba(217,150,141,1)"},"error_y":{"color":"rgba(217,150,141,1)"},"error_x":{"color":"rgba(217,150,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Colombia"],"y":[3.29166666666667],"type":"bar","name":"Colombia","marker":{"color":"rgba(196,153,161,1)","line":{"color":"rgba(196,153,161,1)"}},"textfont":{"color":"rgba(196,153,161,1)"},"error_y":{"color":"rgba(196,153,161,1)"},"error_x":{"color":"rgba(196,153,161,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Philippines"],"y":[3.32978723404255],"type":"bar","name":"Philippines","marker":{"color":"rgba(172,157,182,1)","line":{"color":"rgba(172,157,182,1)"}},"textfont":{"color":"rgba(172,157,182,1)"},"error_y":{"color":"rgba(172,157,182,1)"},"error_x":{"color":"rgba(172,157,182,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script></p>
+<p>Nigeria had the lowest average rating score (1.50 out of 5) among all countries, followed by Canada (score 2.24 out of 5) and Netherlands (score 2.48 out of 5). The other countries had average rating scores approximate to 3 out of 5.</p>
 <table>
 <thead>
 <tr class="header">
@@ -475,7 +491,6 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>Nigeria had the lowest average rating score (1.50 out of 5) among all countries, followed by Canada (score 2.24 out of 5) and Netherlands (score 2.48 out of 5).</p>
 </div>
 
 
