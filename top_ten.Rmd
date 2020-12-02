@@ -14,7 +14,7 @@ opts_chunk$set(
   fig.asp = .6,
   out.width = "90%"
 )
-theme_set(theme_minimal() + theme(legend.position = "bottom"))
+theme_set(theme_minimal() + theme(legend.position = "none"))
 options(
   ggplot2.continuous.colour = "viridis",
   ggplot2.continuous.fill = "viridis"
@@ -29,6 +29,8 @@ tidy_ramen =
   janitor::clean_names() %>% 
   separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
   mutate(
+    country = str_replace(country, "Hong Kong", "China"),
+    country = str_replace(country, "Taiwan", "China"),
     style = factor(style),
     country = factor(country),
     brand = factor(brand),
@@ -122,8 +124,7 @@ top_country_bar =
       title = "Number of top 10 ramen varieties produced by each country",
       y = "Number of top 10 ramen varieties",
       x = "Country"
-    ) +
-    theme(legend.position = "none")
+    )
 
 top_country_bar
 ```
@@ -147,7 +148,7 @@ top_brand_bar =
       y = "Number of top 10 ramen varieties",
       x = "Brand"
     ) +
-    theme(legend.position = "none", axis.text.x = element_text(angle = 30))
+    theme(axis.text.x = element_text(angle = 30))
 
 top_brand_bar
 ```
