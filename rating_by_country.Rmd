@@ -34,7 +34,6 @@ There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countr
 
 
 ## Top Ramen Produce Countries
-Can you imagine how popular ramen is in these countries?!
 ```{r, echo=FALSE, message=FALSE}
 top10_country = 
   tidy_ramen %>%
@@ -132,7 +131,7 @@ avg_country_bar =
   ) %>%
   plot_ly(x = ~country, y = ~avg, color = ~country, type = "bar", text = ~text_label) %>% 
   layout(
-    title = "Average stars for each country",
+    title = "Average stars for each country with 30 or more varieties rated",
     xaxis = list(title = "Country"),
     yaxis = list(title = "Average stars")
   )
