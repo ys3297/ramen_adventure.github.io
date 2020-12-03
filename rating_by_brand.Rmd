@@ -58,16 +58,19 @@ most_various =
   group_by(brand) %>%
   summarize(num_varieties = n()) %>%
   top_n(5) %>%
-  mutate(brand = fct_reorder(brand, num_varieties)) %>%
+  mutate(brand = fct_reorder(brand, num_varieties))
+
+most_various_plot =
+  most_various %>%
   plot_ly(x = ~brand, y = ~num_varieties, color = ~brand, type = "bar", 
           text = ~num_varieties, textposition = 'auto', 
           marker = list(color = 'viridis', 
-                        line = list(color = 'viridis', width = 1.5))) %>% 
+                        line = list(color = 'white', width = 1.5))) %>% 
   layout(title = "5 Ramen Brands with the Widest Varieties",
          xaxis = list(title = "Brand Name"),
          yaxis = list(title = "Number of Varieties")) 
 
-most_various
+most_various_plot
 ```
 
 As shown in the above plot, *Nissin* is the winner with `r tidy_ramen %>% filter(brand == 'Nissin') %>% summarize(count = n())` types of ramen. The 2nd to 5th brands are *Nongshim*, *Maruchan*, *Mama*, and *Paldo*. Each of them has more than 60 but less than 100 types of ramen.
@@ -87,6 +90,7 @@ distri_various =
     x = "Brand Name",
     y = "Rating Stars"
   )
+
 distri_various
 ```
 
@@ -96,22 +100,36 @@ Only *Paldo* and *Maruchan* have some ramen products were rated as `0 Stars`.
 
 
 ```{r, echo=FALSE, message=FALSE}
-five_stars = 
+five_stars_various = 
   tidy_ramen %>%
   drop_na(stars) %>%
   filter(brand %in% c("Paldo", "Mama", "Maruchan", "Nongshim", "Nissin"),
          stars == 5) %>%
-  mutate(brand = forcats::fct_relevel(brand, c("Paldo", "Mama", "Maruchan", "Nongshim", "Nissin"))) %>% 
-  ggplot(aes(x = brand, fill = brand)) + 
-  geom_bar(stat = "count") +
+  group_by(brand) %>%
+  summarize(num_five = n())
+
+num_five_various = 
+  full_join(
+    most_various, five_stars_various, by = c("brand")
+  ) %>%
+  mutate(prct = num_five / num_varieties)
+
+prct_plot = 
+  num_five_various %>%
+  mutate(brand = fct_reorder(brand, prct)) %>% 
+  ggplot(aes(x = brand, y = prct, fill = brand)) + 
+  geom_bar(stat = "identity") +
   labs(
-    title = "Number of 5 Stars Ramen among the 5 Most Various Brands",
+    title = "Percentage of 5 Stars Ramen among the 5 Most Various Brands",
     x = "Brand Name",
-    y = "Number of 5 Stars Ramen"
+    y = "Percentage of 5 Stars"
   )
 
-five_stars
+prct_plot
 ```
 
-All of these 5 brands have at least one ramen was rated as `5 Stars`. *Nissin* also has the largest number of ramen rated as *5 Stars*.
+All of these 5 brands have at least one ramen was rated as `5 Stars`. *Paldo* has the highest percentage of ramen rated as `5 Stars`, while *Maruchan* has the lowest percentage of ramen rated as `5 Stars`.
 
+## Conclusion
+
+There are 355 ramen brands in this dataset. *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo* are the 5 brands the largest number of varieties. The median of these 5 brands are higher than `3 Stars`. *Paldo* has the highest percentage of ramen rated as `5 Stars`.
