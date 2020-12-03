@@ -1,0 +1,16 @@
+---
+title: "Ramen Rating By Types"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(dplyr)
+library(ggridges)
+library(plotly)
+library(patchwork)
+```
