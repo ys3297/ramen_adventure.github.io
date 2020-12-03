@@ -62,7 +62,7 @@ top10_country
 
 The top four countries that had the most ramen varieties rated are China (n = 530), Japan (n = 352), USA (n = 323) and South Korea (n = 309), with over 300 varieties of ramen recorded! The count of ramen varieties produced by China far outweighs the ramen varieties in other countries.
 
-### Rating Distribution among Top Four Ramen Produce Countries
+## Rating Distribution among Top Four Ramen Produce Countries
 Now let's take a closer look at the rating distribution among the top four ramen produce countries!
 ```{r, echo=FALSE, message=FALSE}
 tidy_ramen_top4 = 
