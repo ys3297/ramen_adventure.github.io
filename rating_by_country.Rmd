@@ -110,7 +110,7 @@ scatter_avg_num =
     labs(
       x = "Number of varieties rated",
       y = "Average stars",
-      title = "Average stars vs. Number of varieties rated for each country"
+      title = "Average stars vs. Number of varieties rated for countries"
     )
 
 scatter_avg_num
