@@ -1,5 +1,5 @@
 ---
-title: "Ramen Rating By Types"
+title: "Ramen Rating By Type/Style"
 output: 
   html_document:
     toc: true
@@ -29,10 +29,11 @@ tidy_ramen =
 ```
 
 ## Background Introduction 
-In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let's see if the packaging makes a difference!
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the texture and flavor of ramen - some of us prefer cup noodles, while some prefer packaged noodles. In the following adventure, let's see if the packaging style makes a difference!
 
 ![](pictures/package.jpg)
-## Distribution of Rating by style
+## Distribution of Rating by Style
+First, let's take a look at the distribtion of ramen rating by packaging style. 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 distri_various = 
   tidy_ramen %>%
@@ -47,7 +48,11 @@ distri_various =
 
 distri_various
 ```
+According to the box plot, we can see that most ramens have rating scores higher than 3 stars out of 5. Bar, Box, and Can styles of ramens have limited number of records in our dataset, so the box plot results may be biased. Among other styles of ramens, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores (despite that pack ramens have the most outliers with low rating scores). 
 
+
+## Counts of Ramens by Style
+Now let's check the counts of ramens included in each style.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 most_various = 
   tidy_ramen %>%
@@ -67,21 +72,10 @@ most_various
 
 We see that the most common style of packaging is Pack ramen. The median of rating for Tray, Cup, Can, Pack, Bowl ramens are similar (around 3.7 stars). The median of Bar and Box ramen has the highest rating. However, since the samples of Bar, Can, Box ramens are low, we might neglect them at this moment.
 
-## Analysis of Distribution
 
-We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each and box has only 6 ramens. Therefore, we drop these styles because they are not representative.
+## Analysis of Ramen Rating Distribution by Style
 
-```{r, echo=FALSE}
-new_ramen = 
-  select(tidy_ramen, style, stars) %>%
-  filter(style %in% c("Bowl", "Cup", "Pack", "Tray"))
-
-test <- chisq.test(new_ramen$style, new_ramen$stars)
-
-test
-```
-The Chi-squared test yields a p-value that is greater than 0.05 so we failed to reject null hypothesis and conclude that styles of ramen does not affect the rating.
-
+We would love to know if the differences in rating scores are significant across different ramen packaging styles. To do this, we decided to conduct an Analysis of Variance (ANOVA) test. As shown in the box plot above, there are only few ramens classified as Bar, Can or Box styles, so we will drop these styles in the following analysis, as they are not representative. 
 
 
 
