@@ -14,3 +14,19 @@ library(ggridges)
 library(plotly)
 library(patchwork)
 ```
+
+```{r clean, include=FALSE}
+tidy_ramen = 
+  read_csv("./ramen-ratings.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
+  mutate(
+    style = factor(style),
+    country = factor(country),
+    brand = factor(brand),
+    stars = as.numeric(stars)
+  )
+```
+
+## Background Introduction 
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let's see if the packaging makes a difference!
