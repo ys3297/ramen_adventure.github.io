@@ -386,7 +386,30 @@ div.tocify {
 
 <div id="background-introduction" class="section level2">
 <h2>Background Introduction</h2>
-<p>In this Ramen dataset, there are 8 types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let’s see if the packaging makes a difference!</p>
+<p>In this Ramen dataset, there are 7 types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let’s see if the packaging makes a difference!</p>
+</div>
+<div id="distribution-of-rating-by-style" class="section level2">
+<h2>Distribution of Rating by style</h2>
+<pre class="r"><code>distri_various = 
+  tidy_ramen %&gt;%
+  drop_na(stars) %&gt;%
+  ggplot(aes(x = style, y = stars, color = style)) + 
+  geom_boxplot() +
+  labs(
+    title = &quot;Rating Distribution&quot;,
+    x = &quot;Ramen Style&quot;,
+    y = &quot;Rating Stars&quot;
+  )
+distri_various</code></pre>
+<p><img src="by_type_files/figure-html/unnamed-chunk-1-1.png" width="672" /> ## Analysis of Distribution</p>
+<p>We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each. Therefore, we drop these two styles because they are not representative.</p>
+<pre class="r"><code>new_ramen = 
+  select(tidy_ramen, style, stars) %&gt;%
+  filter(style %in% c(&quot;Bowl&quot;, &quot;Box&quot;, &quot;Cup&quot;, &quot;Pack&quot;, &quot;Tray&quot;))
+
+test &lt;- chisq.test(new_ramen$style, new_ramen$stars)</code></pre>
+<pre><code>## Warning in chisq.test(new_ramen$style, new_ramen$stars): Chi-squared
+## approximation may be incorrect</code></pre>
 </div>
 
 

@@ -13,12 +13,14 @@ library(dplyr)
 library(ggridges)
 library(plotly)
 library(patchwork)
+library(gplots)
 ```
 
 ```{r clean, include=FALSE}
 tidy_ramen = 
   read_csv("./ramen-ratings.csv") %>% 
   janitor::clean_names() %>% 
+  drop_na(style)%>% 
   separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
   mutate(
     style = factor(style),
@@ -30,3 +32,35 @@ tidy_ramen =
 
 ## Background Introduction 
 In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let's see if the packaging makes a difference!
+
+## Distribution of Rating by style
+```{r}
+distri_various = 
+  tidy_ramen %>%
+  drop_na(stars) %>%
+  ggplot(aes(x = style, y = stars, color = style)) + 
+  geom_boxplot() +
+  labs(
+    title = "Rating Distribution",
+    x = "Ramen Style",
+    y = "Rating Stars"
+  )
+distri_various
+```
+## Analysis of Distribution
+
+We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each. Therefore, we drop these two styles because they are not representative.
+
+```{r}
+new_ramen = 
+  select(tidy_ramen, style, stars) %>%
+  filter(style %in% c("Bowl", "Box", "Cup", "Pack", "Tray"))
+
+test <- chisq.test(new_ramen$style, new_ramen$stars)
+test
+```
+The Chi-squared test yields a p-value that is greater than 0.05 so we failed to reject null hypothesis and conclude that styles of ramen does not affect the rating.
+
+
+
+
