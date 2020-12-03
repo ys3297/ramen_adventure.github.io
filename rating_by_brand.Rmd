@@ -9,7 +9,6 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(knitr)
-library(dplyr)
 library(ggridges)
 library(plotly)
 library(patchwork)

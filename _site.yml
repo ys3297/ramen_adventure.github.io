@@ -7,10 +7,12 @@ navbar:
       href: about.html
     - text: "Top 10"
       href: top_ten.html   
-    - text: "Rating by Country"
+    - text: "By Country"
       href: rating_by_country.html
-    - text: "Rating by Brand"
+    - text: "By Brand"
       href: rating_by_brand.html
+    - text: "By Type"
+      href: by_type.html
     - icon: fa-school fa-lg
       href: https://www.cuimc.columbia.edu/
 output:

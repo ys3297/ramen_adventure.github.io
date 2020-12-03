@@ -9,18 +9,16 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(knitr)
-library(dplyr)
 library(ggridges)
 library(plotly)
 library(patchwork)
-library(gplots)
 ```
 
 ```{r clean, include=FALSE}
 tidy_ramen = 
   read_csv("./ramen-ratings.csv") %>% 
   janitor::clean_names() %>% 
-  drop_na(style)%>% 
+  drop_na(style) %>% 
   separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
   mutate(
     style = factor(style),
@@ -35,7 +33,7 @@ In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` types of ram
 
 ![](pictures/package.jpg)
 ## Distribution of Rating by style
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 distri_various = 
   tidy_ramen %>%
   drop_na(stars) %>%
@@ -46,8 +44,10 @@ distri_various =
     x = "Ramen Style",
     y = "Rating Stars"
   )
+
 distri_various
 ```
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 most_various = 
   tidy_ramen %>%
@@ -61,6 +61,7 @@ most_various =
   layout(title = "Most common packing of ramen",
          xaxis = list(title = "Styles"),
          yaxis = list(title = "Number of Product")) 
+
 most_various
 ```
 
@@ -70,11 +71,13 @@ We see that the most common style of packaging is Pack ramen. The median of rati
 
 We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each and box has only 6 ramens. Therefore, we drop these styles because they are not representative.
 
-```{r}
+```{r, echo=FALSE}
 new_ramen = 
   select(tidy_ramen, style, stars) %>%
   filter(style %in% c("Bowl", "Cup", "Pack", "Tray"))
+
 test <- chisq.test(new_ramen$style, new_ramen$stars)
+
 test
 ```
 The Chi-squared test yields a p-value that is greater than 0.05 so we failed to reject null hypothesis and conclude that styles of ramen does not affect the rating.
