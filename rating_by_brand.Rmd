@@ -32,6 +32,8 @@ tidy_ramen =
 ## Background Introduction 
 In this Ramen dataset, there are **`r nrow(count(tidy_ramen, brand))`** brands. In the following adventure, let's explore the varieties and rating of these brands!
 
+
+
 ## 5 Brands with the Widest Varieties
 
 Here are the 5 ramen brands with largest number of varieties.
@@ -41,8 +43,7 @@ most_common =
   group_by(brand) %>%
   summarize(num_varieties = n()) %>%
   top_n(5) %>%
-  mutate(brand = fct_reorder(brand, num_varieties),
-         ) %>%
+  mutate(brand = fct_reorder(brand, num_varieties)) %>%
   plot_ly(x = ~brand, y = ~num_varieties, color = ~brand, type = "bar", 
           text = ~num_varieties, textposition = 'auto', 
           marker = list(color = 'viridis', 
@@ -138,3 +139,10 @@ zero_stars =
 
 Among the total 355 brands, `r nrow(count(five_stars, brand)) ` brands have at least one ramen rated 5 stars, while `r nrow(count(zero_stars, brand)) ` brands have at least one ramen rated 0 stars.
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+avg_stars = 
+  tidy_ramen %>%
+  select(brand, stars) %>%
+  group_by(brand) %>%
+  mutate(avg_star = mean(stars))
+```
