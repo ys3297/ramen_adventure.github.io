@@ -33,6 +33,7 @@ tidy_ramen =
 ## Background Introduction 
 In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let's see if the packaging makes a difference!
 
+![](pictures/package.jpg)
 ## Distribution of Rating by style
 ```{r}
 distri_various = 
@@ -47,15 +48,32 @@ distri_various =
   )
 distri_various
 ```
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+most_various = 
+  tidy_ramen %>%
+  group_by(style) %>%
+  summarize(num_varieties = n()) %>%
+  mutate(style = fct_reorder(style, num_varieties)) %>%
+  plot_ly(x = ~style, y = ~num_varieties, color = ~style, type = "bar", 
+          text = ~num_varieties, textposition = 'auto', 
+          marker = list(color = 'viridis', 
+                        line = list(color = 'viridis', width = 1.5))) %>% 
+  layout(title = "Most common packing of ramen",
+         xaxis = list(title = "Styles"),
+         yaxis = list(title = "Number of Product")) 
+most_various
+```
+
+We see that the most common style of packaging is Pack ramen. The median of rating for Tray, Cup, Can, Pack, Bowl ramens are similar (around 3.7 stars). The median of Bar and Box ramen has the highest rating. However, since the samples of Bar, Can, Box ramens are low, we might neglect them at this moment.
+
 ## Analysis of Distribution
 
-We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each. Therefore, we drop these two styles because they are not representative.
+We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each and box has only 6 ramens. Therefore, we drop these styles because they are not representative.
 
 ```{r}
 new_ramen = 
   select(tidy_ramen, style, stars) %>%
-  filter(style %in% c("Bowl", "Box", "Cup", "Pack", "Tray"))
-
+  filter(style %in% c("Bowl", "Cup", "Pack", "Tray"))
 test <- chisq.test(new_ramen$style, new_ramen$stars)
 test
 ```

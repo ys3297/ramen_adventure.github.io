@@ -25,6 +25,13 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -387,9 +394,7 @@ div.tocify {
 <div id="background-introduction" class="section level2">
 <h2>Background Introduction</h2>
 <p>In this Ramen dataset, there are 7 types of ramen packaging. We wonder if different pakcaging may affect the texture and flavor of ramen. In the following adventure, let’s see if the packaging makes a difference!</p>
-</div>
-<div id="distribution-of-rating-by-style" class="section level2">
-<h2>Distribution of Rating by style</h2>
+<p><img src="pictures/package.jpg" /> ## Distribution of Rating by style</p>
 <pre class="r"><code>distri_various = 
   tidy_ramen %&gt;%
   drop_na(stars) %&gt;%
@@ -401,15 +406,26 @@ div.tocify {
     y = &quot;Rating Stars&quot;
   )
 distri_various</code></pre>
-<p><img src="by_type_files/figure-html/unnamed-chunk-1-1.png" width="672" /> ## Analysis of Distribution</p>
-<p>We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each. Therefore, we drop these two styles because they are not representative.</p>
+<p><img src="by_type_files/figure-html/unnamed-chunk-1-1.png" width="672" /> <div id="htmlwidget-2d8fa031ee4a78e8d444" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2d8fa031ee4a78e8d444">{"x":{"visdat":{"15e0917ee5074":["function () ","plotlyVisDat"]},"cur_data":"15e0917ee5074","attrs":{"15e0917ee5074":{"x":{},"y":{},"text":{},"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Most common packing of ramen","xaxis":{"domain":[0,1],"automargin":true,"title":"Styles","type":"category","categoryorder":"array","categoryarray":["Bar","Can","Box","Tray","Cup","Bowl","Pack"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Product"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Bar"],"y":[1],"text":1,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Bar","textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Can"],"y":[1],"text":1,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Can","textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Box"],"y":[6],"text":6,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Box","textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Tray"],"y":[108],"text":108,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Tray","textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Cup"],"y":[450],"text":450,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Cup","textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Bowl"],"y":[481],"text":481,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Bowl","textfont":{"color":"rgba(255,217,47,1)"},"error_y":{"color":"rgba(255,217,47,1)"},"error_x":{"color":"rgba(255,217,47,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Pack"],"y":[1531],"text":1531,"textposition":"auto","marker":{"color":"viridis","line":{"color":"viridis","width":1.5}},"type":"bar","name":"Pack","textfont":{"color":"rgba(229,196,148,1)"},"error_y":{"color":"rgba(229,196,148,1)"},"error_x":{"color":"rgba(229,196,148,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script></p>
+<p>We see that the most common style of packaging is Pack ramen. The median of rating for Tray, Cup, Can, Pack, Bowl ramens are similar (around 3.7 stars). The median of Bar and Box ramen has the highest rating. However, since the samples of Bar, Can, Box ramens are low, we might neglect them at this moment.</p>
+</div>
+<div id="analysis-of-distribution" class="section level2">
+<h2>Analysis of Distribution</h2>
+<p>We see that from the boxplot above, Can and Bar packaging of ramen only have one ramen each and box has only 6 ramens. Therefore, we drop these styles because they are not representative.</p>
 <pre class="r"><code>new_ramen = 
   select(tidy_ramen, style, stars) %&gt;%
-  filter(style %in% c(&quot;Bowl&quot;, &quot;Box&quot;, &quot;Cup&quot;, &quot;Pack&quot;, &quot;Tray&quot;))
-
+  filter(style %in% c(&quot;Bowl&quot;, &quot;Cup&quot;, &quot;Pack&quot;, &quot;Tray&quot;))
 test &lt;- chisq.test(new_ramen$style, new_ramen$stars)</code></pre>
 <pre><code>## Warning in chisq.test(new_ramen$style, new_ramen$stars): Chi-squared
 ## approximation may be incorrect</code></pre>
+<pre class="r"><code>test</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  new_ramen$style and new_ramen$stars
+## X-squared = 148.8, df = 123, p-value = 0.05662</code></pre>
+<p>The Chi-squared test yields a p-value that is greater than 0.05 so we failed to reject null hypothesis and conclude that styles of ramen does not affect the rating.</p>
 </div>
 
 
