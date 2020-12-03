@@ -28,10 +28,10 @@ tidy_ramen =
   )
 ```
 
-<img src="pictures/ramen_world.jpg">  
+<center><img src="pictures/ramen_world.jpg"></center>  
 
 ## Background Introduction 
-There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countries included in our Ramen dataset, with a total of `r nrow(tidy_ramen)` ramen varieties. 
+There are `r tidy_ramen %>% distinct(country) %>% summarize(count = n())` countries included in our Ramen dataset. 
 
 
 ## Top Ramen Produce Countries
@@ -39,15 +39,21 @@ Can you imagine how popular ramen is in these countries?!
 ```{r, echo=FALSE, message=FALSE}
 top10_country = 
   tidy_ramen %>%
-  group_by(country) %>%
-  summarize(count = n()) %>%
-  arrange(desc(count)) %>%
-  top_n(10) %>% 
-  ggplot(aes(x = country, y = count, fill = country)) +
+  count(country) %>%
+  mutate(
+    country = fct_reorder(country, n),
+    country_rank = min_rank(desc(n))
+  ) %>%
+  filter(country_rank <= 10) %>% 
+  ggplot(aes(x = country, y = n, fill = country)) +
     geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 10
+    ) +
     labs(
       title = "Top 10 ramen produce countries",
-      y = "Count of ramen varieties",
+      y = "Number of ramen varieties",
       x = "Country"
     ) +
     theme(legend.position = "none", axis.text.x = element_text(angle = 30))
@@ -55,22 +61,9 @@ top10_country =
 top10_country
 ```
 
-The top four countries that produced the most ramens are China (n = 530), Japan (n = 352), USA (n = 323) and South Korea (n = 309), with over 300 varieties of ramen recorded! The count of ramen varieties produced by China far outweighs the ramen varieties in other countries.
+The top four countries that had the most ramen varieties rated are China (n = 530), Japan (n = 352), USA (n = 323) and South Korea (n = 309), with over 300 varieties of ramen recorded! The count of ramen varieties produced by China far outweighs the ramen varieties in other countries.
 
-```{r, echo=FALSE, message=FALSE}
-top4_country = 
-  tidy_ramen %>%
-  group_by(country) %>%
-  summarize(count = n()) %>%
-  arrange(desc(count)) %>%
-  top_n(4) %>% 
-  knitr::kable()
-
-top4_country
-```
-
-
-### Rating Distribution among Top Three Ramen Produce Countries
+### Rating Distribution among Top Four Ramen Produce Countries
 Now let's take a closer look at the rating distribution among the top four ramen produce countries!
 ```{r, echo=FALSE, message=FALSE}
 tidy_ramen_top4 = 
@@ -95,7 +88,7 @@ According to the graph, it appears that most ramens produced by China, South Kor
 ## Top Average Rating Countries
 What are the top countries that have the highest average rating scores on their ramens? Do you have any guess?
 
-<img src="pictures/question.jpg">  
+<center><img src="pictures/question.jpg"></center>
 
 Here is the result!
 
@@ -105,26 +98,22 @@ Let's first take a look at the top 10 countries with the highest average rating 
 tidy_ramen %>%
   group_by(country) %>%
   drop_na(stars) %>%
-  summarize(avg_rating = mean(stars)) %>%
+  summarize(avg_rating = round(mean(stars), 2)) %>%
   arrange(desc(avg_rating)) %>%
   head(10) %>%
-  mutate(country = fct_reorder(country, avg_rating)) %>%
-  plot_ly(x = ~country, y = ~avg_rating, color = ~country, type = "bar") 
+  mutate(
+    country = fct_reorder(country, avg_rating),
+    text_label = str_c("Country: ", country, "\nAverage Stars: ", avg_rating)
+  ) %>%
+  plot_ly(x = ~country, y = ~avg_rating, color = ~country, type = "bar", text = ~text_label) %>% 
+  layout(
+    title = "Average stars for each top 10 country",
+    xaxis = list(title = "Country"),
+    yaxis = list(title = "Average stars")
+  )
 ```
 
-
-Does the result differ from your expectation? It appears that the top ten average rating countries have average rating scores between the range of 3.5 and 4.5 out of 5 stars. Brazil had the highest average rating score (4.35 out of 5) among all countries, followed by Sarawak (score 4.33 out of 5) and Cambodia (score 4.20 out of 5). These countries produced ramens with higher quality (better taste) despite that they were not the top ramen producers in quantity.
-
-```{r, echo=FALSE, message=FALSE}
-tidy_ramen %>%
-  group_by(country) %>%
-  drop_na(stars) %>%
-  summarize(avg_rating = mean(stars)) %>%
-  arrange(desc(avg_rating)) %>%
-  head(3) %>%
-  knitr::kable(digits = 2) 
-```
-
+Does the result differ from your expectation? It appears that the top ten average rating countries have average rating scores between the range of 3.5 and 4.5 out of 5 stars. Brazil had the highest average rating score (`r tidy_ramen %>% group_by(country) %>% summarize(avg_rating = round(mean(stars), 2)) %>% filter(country == "Brazil") %>% pull(avg_rating)` out of 5) among all countries, followed by Sarawak (`r tidy_ramen %>% group_by(country) %>% summarize(avg_rating = round(mean(stars), 2)) %>% filter(country == "Sarawak") %>% pull(avg_rating)` out of 5) and Cambodia (`r tidy_ramen %>% group_by(country) %>% summarize(avg_rating = round(mean(stars), 2)) %>% filter(country == "Cambodia") %>% pull(avg_rating)` out of 5). These countries produced ramens with higher quality (better taste) despite that they were not the top ramen producers in varieties.
 
 ## Bottom Average Rating Countries
 
@@ -136,22 +125,19 @@ Check out the bottom 10 countries with the lowest average rating scores below!
 tidy_ramen %>%
   group_by(country) %>%
   drop_na(stars) %>%
-  summarize(avg_rating = mean(stars)) %>%
+  summarize(avg_rating = round(mean(stars), 2)) %>%
   arrange(avg_rating) %>%
   head(10) %>%
-  mutate(country = fct_reorder(country, avg_rating)) %>%
-  plot_ly(x = ~country, y = ~avg_rating, color = ~country, type = "bar") 
+    mutate(
+    country = fct_reorder(country, desc(avg_rating)),
+    text_label = str_c("Country: ", country, "\nAverage Stars: ", avg_rating)
+  ) %>%
+  plot_ly(x = ~country, y = ~avg_rating, color = ~country, type = "bar", text = ~text_label) %>% 
+  layout(
+    title = "Average stars for each bottom 10 country",
+    xaxis = list(title = "Country"),
+    yaxis = list(title = "Average stars")
+  )
 ```
 
-
-Nigeria had the lowest average rating score (1.50 out of 5) among all countries, followed by Canada (score 2.24 out of 5) and Netherlands (score 2.48 out of 5). The other countries had average rating scores approximate to 3 out of 5.   
-
-```{r, echo=FALSE, message=FALSE}
-tidy_ramen %>%
-  group_by(country) %>%
-  drop_na(stars) %>%
-  summarize(avg_rating = mean(stars)) %>%
-  arrange(avg_rating) %>%
-  head(3) %>%
-  knitr::kable(digits = 2) 
-```
+Nigeria had the lowest average rating score (`r tidy_ramen %>% group_by(country) %>% summarize(avg_rating = round(mean(stars), 2)) %>% filter(country == "Nigeria") %>% pull(avg_rating)` out of 5) among all countries, followed by Canada (score `r tidy_ramen %>% group_by(country) %>% summarize(avg_rating = round(mean(stars), 2)) %>% filter(country == "Canada") %>% pull(avg_rating)` out of 5) and Netherlands (`r tidy_ramen %>% group_by(country) %>% summarize(avg_rating = round(mean(stars), 2)) %>% filter(country == "Netherlands") %>% pull(avg_rating)` out of 5). The other countries had average rating scores approximate to 3 out of 5.   

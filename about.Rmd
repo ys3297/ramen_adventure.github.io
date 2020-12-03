@@ -17,9 +17,9 @@ After we looked further into the dataset, we thought it would also be interestin
 ### Data
 The dataset was republished according to [The Ramen Rater](https://www.theramenrater.com/) by Aleksey Bilogur. It can be accessed [here](https://www.kaggle.com/residentmario/ramen-ratings)  
 [The Ramen Rater](https://www.theramenrater.com/) is a website on which Hans Lienesch posted his reviews of instant noodles.  
-Each record in the raw dataset is a single ramen product review. Review numbers are contiguous: more recently reviewed ramen varieties have higher numbers. Brand, Variety (the product name), Country, and Style (Cup? Bowl? Tray?) are pretty self-explanatory. Stars indicate the ramen quality, as assessed by the reviewer, on a 5-point scale. The raw dataset also includes a "Top Ten" column to show the rank and rated year of each top 10 ramen.  
+Each record in the raw dataset is a single ramen product review. `Review #` is contiguous: more recently reviewed ramen varieties have higher numbers. `Brand`, `Variety` (the product name), `Country`, and `Style` (Cup? Bowl? Tray?) are pretty self-explanatory. `Stars` indicates the ramen quality, as assessed by the reviewer, on a 5-point scale. The raw dataset also includes a `Top Ten` column to show the rank and rated year of each top 10 ramen.  
 
 ### Methods
-We conducted data cleaning on the raw dataset, which includes: separating the variable "top_ten" into two columns ("year" and "rank"); combining Taiwan, Hong Kong, and China as one variable (Taiwan and Hong Kong are regions of China, but not individual countries); and setting variables to the appropriate data type.
+We conducted data cleaning on the raw dataset, which includes: separating the variable "top_ten" into two columns ("year" and "rank"), recoding values "Taiwan", "Hong Kong" for `country` as "China" to keep consistency of level with other values, and setting variables to the appropriate data type.
 
 On the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.
