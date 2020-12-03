@@ -8,7 +8,6 @@ output:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggridges)
 library(plotly)
 ```
 
@@ -64,22 +63,22 @@ The top four countries that had the most ramen varieties rated are China (n = `r
 ## Rating Distribution among Top Four Ramen Produce Countries
 Now let's take a closer look at the rating distribution among the top four ramen produce countries!
 ```{r, echo=FALSE, message=FALSE}
-tidy_ramen_top4 = 
+top4_violin = 
   tidy_ramen %>%
   filter(country == c("China", "Japan", "USA", "South Korea")) %>%
   drop_na(stars) %>%
-  ggplot(aes(x = stars, y = country, fill = country)) + 
-  geom_density_ridges(scale = .85) +
+  ggplot(aes(x = country, y = stars, fill = country)) + 
+  geom_violin() +
   labs(
     title = "Ramen rating distribution among Japan, USA, and South Korea",
     x = "Stars (0-5)",
     y = "Country"
   )
 
-tidy_ramen_top4
+top4_violin
 ```
 
-According to the graph, it appears that most ramens produced by China, South Korea, and USA have a peak of rating scores around 4 stars and a second but smaller peak at score 5. Among all four countries, Japan has relatively higher rating scores with more rating scores at score around 4 to 5 stars.  
+According to the graph, it appears that most rated ramen varieties from China, South Korea, and USA have a peak of rating scores around 3.5 to 4 stars and a second but smaller peak at score 5. Among these four countries, Japan has a relatively higher proportion of rating scores around 4 to 5 stars.  
 
 ## Average Rating by Country
 What are the top/bottom countries that have the highest/lowest average rating scores on their ramens? Do you have any guess?
