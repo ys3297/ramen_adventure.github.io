@@ -26,6 +26,13 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -417,6 +424,8 @@ div.tocify {
 <li>After we looked further into the dataset, we thought it would also be interesting if we explore more about:
 <ul>
 <li>Which country/brand produced the greatest number of top 10 ramens?</li>
+<li></li>
+<li>Which 5 brands produced the most varieties? What are the rating stars distribution of these 5 brands? For these 5 brands, what are their percentage of 5-Stars ramen?</li>
 </ul></li>
 </ul>
 </div>
@@ -502,8 +511,84 @@ top_country_bar</code></pre>
 top_brand_bar</code></pre>
 <p><img src="report_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Singapore was the country that had the most top 10 ramen varieties (7), while Prima Taste was the brand that had the most top 10 ramen varieties (5).</p>
+</div>
+<div id="exploration-by-country" class="section level3">
+<h3>Exploration by Country</h3>
 <p>In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.</p>
-<p>In the By Brand page, we counted the total number of brands in the <code>tidy_ramen</code> dataframe, the number of brands with 5-Stars ramen, and the number of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen.</p>
+</div>
+<div id="exploration-by-brand" class="section level3">
+<h3>Exploration by Brand</h3>
+<p>In the By Brand page, we counted the total number of brands is 355. The number of brands with 5-Stars ramen is 106, and the number of brands with 0-Stars ramen is 21.</p>
+<pre class="r"><code>most_various = 
+  tidy_ramen %&gt;%
+  group_by(brand) %&gt;%
+  summarize(num_varieties = n()) %&gt;%
+  top_n(5) %&gt;%
+  mutate(brand = fct_reorder(brand, num_varieties))
+
+most_various_plot =
+  most_various %&gt;%
+  mutate(text_label = str_c(&quot;Brand: &quot;, brand, &quot;\nNumber of varieties: &quot;, num_varieties)) %&gt;% 
+  plot_ly(x = ~brand, y = ~num_varieties, color = ~brand, type = &quot;bar&quot;, 
+          text = ~text_label,
+          marker = list(color = &#39;viridis&#39;, 
+                        line = list(color = &#39;white&#39;, width = 1.5))) %&gt;% 
+  layout(title = &quot;5 Ramen Brands with Most Rated Varieties&quot;,
+         xaxis = list(title = &quot;Brand&quot;),
+         yaxis = list(title = &quot;Number of Varieties&quot;)) 
+
+most_various_plot</code></pre>
+<p><div id="htmlwidget-1f4ecd9a2200fb45ea6f" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1f4ecd9a2200fb45ea6f">{"x":{"visdat":{"130af9783e23":["function () ","plotlyVisDat"]},"cur_data":"130af9783e23","attrs":{"130af9783e23":{"x":{},"y":{},"text":{},"marker":{"color":"viridis","line":{"color":"white","width":1.5}},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"5 Ramen Brands with Most Rated Varieties","xaxis":{"domain":[0,1],"automargin":true,"title":"Brand","type":"category","categoryorder":"array","categoryarray":["Paldo","Mama","Maruchan","Nongshim","Nissin","1 To 3 Noodles","7 Select","7 Select/Nissin","A-One","A-Sha Dry Noodle","A1","ABC","Acecook","Adabi","Ah Lai","Ajinatori","Amianda","Amino","Annie Chun's","Aroi","Asia Gold","Asian Thai Foods","Authentically Asian","Azami","Baijia","Baixiang Noodles","Baltix","Bamee","Batchelors","Binh Tay","Bon Go Jang","Bonasia","Boss","Campbell's","Cap Atoom Bulan","CarJEN","Chaudhary's Wai Wai","Chencun","Chering Chang","Chewy","Chikara","China Best","Ching's Secret","Chorip Dong","ChoripDong","Choumama","Chuan Wei Wang","Cintan","CJ CheilJedang","Conimex","Crystal Noodle","Curry Prince","Daddy","Daifuku","Daikoku","Daraz","Deshome","Doll","Dongwon","Dr. McDougall's","Dragonfly","Dream Kitchen","E-mi","E-Zee","Eat & Go","Econsave","Emart","Fantastic","Farmer's Heart","Fashion Food","Fashion Foods","FMF","Foodmon","Forest Noodles","Fortune","Four Seas","Fu Chang Chinese Noodle Company","Fuji Mengyo","Fujiwara","Fuku","GaGa","Gau Do","Gefen","GGE","Global Inspiration","Goku Uma","Goku-Uma","Golden Mie","Golden Wheat","Golden Wonder","Gomex","Good Tto Leu Foods","Great Value","GreeNoodle","GS25","Guava Story","Haioreum","Han's South Korea","Hankow","Hao Way","Happy Cook","Happy Family","Healtimie","Hi-Myon","Higashi","Higashimaru","HoMyeonDang","Hosoonyi","Hsin Tung Yang","Hua Feng","Hua Feng Noodle Expert","Ibumie","IbuRamen","ICA","Ikeda Shoku","iMee","Indomie","iNoodle","Ishimaru","Itomen","Itsuki","J.J.","Jackpot Teriyaki","JFC","Jingqi","JML","Just Way","Kabuto Noodles","Kailo","Kamfen","Kang Shi Fu","Katoz","Kiki Noodle","Kim Ve Wong","Kim's Bowl","Kimura","Kin-Dee","Knorr","Ko-Lee","Koh Thai","Koka","KOKA","Komforte Chockolates","Koyo","Kumamoto","Kuriki","La Fonte","La Moderna","Lee Fah Mee","Lele","Liang Cheng Mai","Lipton","Lishan","Lishan Food Manufacturing","Little Cook","Liu Quan","Long Jun Hang","Long Kow","Lotus Foods","Love Cook","Lucky Me!","Maggi","Maitri","MAMA","Mama Pat's","Mamee","Marutai","Master Kong","Mee Jang","Men-Sunaoshi","Menraku","Mexi-Ramen","Mi E-Zee","Mi Sedaap","Mie Sedaap","Migawon","Miliket","Miracle Noodle","Mitoku","Mom's Dry Noodle","Morre","Mr. Lee's Noodles","Mr. Noodles","Mr. Udon","Mug Shot","Mum Ngon","MyKuali","Myojo","MyOri","Nagao Noodle","Nagatanien","Nakaya Shouten","Nan Hsing","Nan Jie Cun","Nanyang Chef","New Touch","New Way","No Name","Noah Foods","Noodle Time","Nyor Nyar","O Sung","Ogasawara","Ohsung","Omachi","One Dish Asia","Oni Hot Pot","ORee Garden","Osaka Ramen","Ottogi","Oyatsu","Paldo Vina","Pama","Pamana","Papa","Patanjali","Payless","Peyang","Pirkka","Plats Du Chef","Pop Bihun","Pot Noodle","Pran","Premiere","President","President Rice","Prima","Prima Taste","Pringles","Pulmuone","Q","Qin Zong","Quickchow","Rhee Bros Assi","Right Foods","Ripe'n'Dry","Rocket Brand","Roland","Royal Umbrella","Ruski","S&S","Sahmyook","Saigon Ve Wong","Sainsbury's","Saji","Sakura Noodle","Sakurai","Sakurai Foods","Salam Mie","Samurai Ramen","Samyang","Samyang Foods","Sanpo","Sanrio","Sanyo Foods","Sao Tao","Sapporo Ichiban","Sarimi","Sau Tao","Sawadee","Sempio","Seven & I","Seven-Eleven","Shan","Shirakiku","Sichuan Baijia","Sichuan Guangyou","Singa-Me","Six Fortune","Smack","Snapdragon","Sokensha","Song Hak","Souper","Springlife","Star Anise Foods","Sugakiya Foods","Suimin","Sun Noodle","Sunlee","Sunlight","Sunny Maid","Super","Super Bihun","SuperMi","Sura","Sutah","Tablemark","Takamori","Takamori Kosan","Tao Kae Noi","Tasty Bite","Tayho","Ten-In","Teriyaki Time","Tesco","Thai Chef","Thai Choice","Thai Kitchen","Thai Pavilion","Thai Smile","The Bridge","The Kitchen Food","The Ramen Rater Select","Thien Houng Foods","Tiger","Tiger Tiger","Tokachimen Koubou","Tokushima Seifun","Tokyo Noodle","Torishi","Tradition","TRDP","Trident","Tropicana Slim","Tseng Noodles","TTL","Tung-I","Uncle Sun","Uni-President","Unif","Unif / Tung-I","Unif Tung-I","Unif-100","United","Unox","Unzen","Urban Noodle","US Canning","Ve Wong","Vedan","Vifon","Vina Acecook","Vit's","Wai Wai","Wang","Weh Lih","Wei Chuan","Wei Lih","Wei Wei","Westbrae","Western Family","World O' Noodle","Wu Mu","Wu-Mu","Wugudaochang","Xiao Ban Mian","Xiuhe","Yamachan","Yamadai","Yamamori","Yamamoto","Yum Yum","Yum-Mie","Zow Zow"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Varieties"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Paldo"],"y":[66],"text":"Brand: Paldo<br />Number of varieties: 66","marker":{"color":"viridis","line":{"color":"white","width":1.5}},"type":"bar","name":"Paldo","textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Mama"],"y":[71],"text":"Brand: Mama<br />Number of varieties: 71","marker":{"color":"viridis","line":{"color":"white","width":1.5}},"type":"bar","name":"Mama","textfont":{"color":"rgba(107,193,164,1)"},"error_y":{"color":"rgba(107,193,164,1)"},"error_x":{"color":"rgba(107,193,164,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Maruchan"],"y":[76],"text":"Brand: Maruchan<br />Number of varieties: 76","marker":{"color":"viridis","line":{"color":"white","width":1.5}},"type":"bar","name":"Maruchan","textfont":{"color":"rgba(113,192,162,1)"},"error_y":{"color":"rgba(113,192,162,1)"},"error_x":{"color":"rgba(113,192,162,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Nongshim"],"y":[98],"text":"Brand: Nongshim<br />Number of varieties: 98","marker":{"color":"viridis","line":{"color":"white","width":1.5}},"type":"bar","name":"Nongshim","textfont":{"color":"rgba(117,192,161,1)"},"error_y":{"color":"rgba(117,192,161,1)"},"error_x":{"color":"rgba(117,192,161,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Nissin"],"y":[381],"text":"Brand: Nissin<br />Number of varieties: 381","marker":{"color":"viridis","line":{"color":"white","width":1.5}},"type":"bar","name":"Nissin","textfont":{"color":"rgba(122,191,160,1)"},"error_y":{"color":"rgba(122,191,160,1)"},"error_x":{"color":"rgba(122,191,160,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script> We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety.</p>
+<pre class="r"><code>distri_various = 
+  tidy_ramen %&gt;%
+  drop_na(stars) %&gt;%
+  filter(brand %in% c(&quot;Paldo&quot;, &quot;Mama&quot;, &quot;Maruchan&quot;, &quot;Nongshim&quot;, &quot;Nissin&quot;)) %&gt;%
+  mutate(brand = forcats::fct_relevel(brand, c(&quot;Paldo&quot;, &quot;Mama&quot;, &quot;Maruchan&quot;, &quot;Nongshim&quot;, &quot;Nissin&quot;))) %&gt;% 
+  ggplot(aes(x = brand, y = stars, color = brand)) + 
+  geom_boxplot() +
+  labs(
+    title = &quot;Rating Distribution Plot of the 5 Brands with Most Rated Varieties&quot;,
+    x = &quot;Brand&quot;,
+    y = &quot;Rating Stars (0-5)&quot;
+  )
+
+distri_various</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-5-1.png" width="672" /> For these 5 brands, we created a boxplot about their rating stars and ordered as the above plot. The median rating stars of <em>Nissin</em>, <em>Nongshim</em>, and <em>Paldo</em> are close to 4 stars. The median of <em>Mama</em> and <em>Maruchan</em> are lower than 4 stars. 75% of products of these 5 brands were rated above or equal to 3 Stars.</p>
+<pre class="r"><code>five_stars_various = 
+  tidy_ramen %&gt;%
+  drop_na(stars) %&gt;%
+  filter(brand %in% c(&quot;Paldo&quot;, &quot;Mama&quot;, &quot;Maruchan&quot;, &quot;Nongshim&quot;, &quot;Nissin&quot;),
+         stars == 5) %&gt;%
+  group_by(brand) %&gt;%
+  summarize(num_five = n())
+
+num_five_various = 
+  full_join(
+    most_various, five_stars_various, by = c(&quot;brand&quot;)
+  ) %&gt;%
+  mutate(prct = num_five / num_varieties * 100)
+
+prct_plot = 
+  num_five_various %&gt;%
+  mutate(brand = fct_reorder(brand, prct)) %&gt;% 
+  ggplot(aes(x = brand, y = prct, fill = brand)) + 
+  geom_col() +
+  geom_text(
+    aes(label = round(prct, 2)),
+    nudge_y = 0.5
+  ) +
+  labs(
+    title = &quot;Percentage of 5 Stars Ramen among the 5 Brands with Most Rated Varieties&quot;,
+    x = &quot;Brand&quot;,
+    y = &quot;Percentage of 5 Stars (%)&quot;
+  )
+
+prct_plot</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-6-1.png" width="672" /> Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen and the percentage of 5-Stars for each brand, created a bar chart and ordered by the absolute percentage of 5-Stars ramen.</p>
+</div>
+<div id="exploration-by-typestyle" class="section level3">
+<h3>Exploration by Type/Style</h3>
 </div>
 </div>
 <div id="additional-analysis" class="section level2">
