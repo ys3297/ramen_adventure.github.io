@@ -174,8 +174,8 @@ most_various_plot =
   plot_ly(
     x = ~brand, y = ~num_varieties, color = ~brand, type = "bar", 
     text = ~text_label,
-    marker = list(line = list(color = 'white', width = 1.5))
-  ) %>% 
+    marker = list(color = 'viridis', 
+                  line = list(color = 'white', width = 1.5))) %>% 
   layout(title = "5 Ramen Brands with Most Rated Varieties",
          xaxis = list(title = "Brand"),
          yaxis = list(title = "Number of Varieties")) 
