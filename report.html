@@ -411,13 +411,13 @@ h1.title {
 </center>
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
-<p>All members of the group are noodles lovers and want to look for the best instant noodles to purchase as well as the worst instant noodles to avoid purchasing in the future. We found an amazing dataset about ramen ratings in Kaggle and decided to use it as a reference to answer our questions. We believed that this Ramen Adventure project would be an interesting topic to discuss!</p>
+<p>All members of the group are noodles lovers and want to look for the best instant noodles to purchase as well as the worst instant noodles to avoid purchasing in the future. We found an amazing dataset about ramen ratings in <a href="https://www.kaggle.com/">Kaggle</a> and decided to use it as a reference to answer our questions.</p>
 </div>
 <div id="related-work" class="section level2">
-<h2>Related work?</h2>
+<h2>Related Work?</h2>
 </div>
 <div id="initial-questions" class="section level2">
-<h2>Initial questions</h2>
+<h2>Initial Questions</h2>
 <ul>
 <li>Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.</li>
 <li>After we looked further into the dataset, we thought it would also be interesting if we explore more about:
@@ -430,7 +430,7 @@ h1.title {
 <div id="data" class="section level2">
 <h2>Data</h2>
 <div id="data-source-and-structure" class="section level3">
-<h3>Data source and structure</h3>
+<h3>Data Source and Structure</h3>
 <ul>
 <li>The dataset was republished according to <a href="https://www.theramenrater.com/">The Ramen Rater</a> by Aleksey Bilogur. It can be accessed <a href="https://www.kaggle.com/residentmario/ramen-ratings">here</a>.<br />
 </li>
@@ -449,7 +449,7 @@ h1.title {
 </ul>
 </div>
 <div id="data-cleaning" class="section level3">
-<h3>Data cleaning</h3>
+<h3>Data Cleaning</h3>
 <pre class="r"><code>tidy_ramen = 
   read_csv(&quot;./ramen-ratings.csv&quot;) %&gt;% 
   janitor::clean_names() %&gt;% 
@@ -466,12 +466,12 @@ h1.title {
 </div>
 </div>
 <div id="exploratory-analysis" class="section level2">
-<h2>Exploratory analysis</h2>
+<h2>Exploratory Analysis</h2>
 <p>In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.</p>
-<p>In the By Brand page, we counted the total number of brands in the <code>tidy_ramen</code> dataframe, the number of brands with 5-Stars ramen, and the numbe of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen.</p>
+<p>In the By Brand page, we counted the total number of brands in the <code>tidy_ramen</code> dataframe, the number of brands with 5-Stars ramen, and the number of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen.</p>
 </div>
 <div id="additional-analysis" class="section level2">
-<h2>Additional analysis</h2>
+<h2>Additional Analysis</h2>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>

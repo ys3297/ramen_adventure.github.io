@@ -110,7 +110,7 @@ top_ten_2012
 Of course, you can find that all the lists above are not complete. The reason might be Alexsey didn't complete the data entry. However, after checking the original [Top 10 lists](https://www.theramenrater.com/top-ten-lists/) and comparing them with what we have in the dataset, we found that only one year and rank could be recorded for those ramens which were listed for multiple times in the top 10 lists for different years in the raw dataset.  
 Anyway, we could only use this page for practice purpose. If you really want to know the complete top 10 lists, you can go directly to [The Ramen Rater](https://www.theramenrater.com/) and find more complete and updated information.
 
-## By country
+## By Country
 
 Next, let's see the number of top 10 ramen varieties produced by each country.
 
@@ -137,7 +137,7 @@ top_country_bar
 
 We can see that Singapore was the country that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Singapore") %>% nrow()`), followed by Japan (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Japan") %>% nrow()`) and Malaysia (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Malaysia") %>% nrow()`).
 
-## By brand
+## By Brand
 
 Finally, let's see the number of top 10 ramen varieties produced by each brand.
 
