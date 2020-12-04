@@ -9,7 +9,6 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(knitr)
-library(ggridges)
 library(plotly)
 library(patchwork)
 ```
@@ -34,12 +33,40 @@ In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packag
 
 <center><img src="./pictures/package.jpg"></center>
 
-## Distribution of Rating by Style
-First, let's take a look at the distribtion of ramen rating by packaging style. 
+## Counts of Ramens by Style
+Now let's check the counts of ramens included in each style.
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-distri_various = 
+most_various = 
   tidy_ramen %>%
-  drop_na(stars, style) %>%
+  group_by(style) %>%
+  summarize(num_varieties = n()) %>%
+  mutate(
+    style = fct_reorder(style, num_varieties),
+    text_label = str_c("Style: ", style, "\nNumber of varieties: ", num_varieties)  
+  ) %>%
+  plot_ly(x = ~style, y = ~num_varieties, color = ~style, type = "bar", 
+          text = ~text_label, 
+          marker = list(color = 'viridis', 
+                        line = list(color = 'viridis', width = 1.5))) %>% 
+  layout(title = "Most common packing of ramen",
+         xaxis = list(title = "Styles"),
+         yaxis = list(title = "Number of Product")) 
+
+most_various
+```
+
+We see that the style of mast varieties rated is Pack, with `r tidy_ramen %>% filter(style == "Pack") %>% nrow()` varieties rated in the dataset. Since there are too few ramen varieties in Bar (`r tidy_ramen %>% filter(style == "Bar") %>% nrow()`), Can ((`r tidy_ramen %>% filter(style == "Can") %>% nrow()`)), and Box (`r tidy_ramen %>% filter(style == "Box") %>% nrow()`), we'll exclude these styles in the following analysis.
+
+## Distribution of Rating by Style
+Then, let's take a look at the distribtion of ramen rating by packaging style. 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+four_styles = 
+  tidy_ramen %>%
+  filter(style == c("Bowl", "Cup", "Pack", "Tray")) 
+
+distri_various = 
+  four_styles %>%
+  drop_na(stars) %>%
   ggplot(aes(x = style, y = stars, color = style)) + 
   geom_boxplot() +
   labs(
@@ -50,34 +77,46 @@ distri_various =
 
 distri_various
 ```
-According to the box plot, we can see that most ramens have rating scores higher than 3 stars out of 5. Bar, Box, and Can styles of ramens have limited number of records in our dataset, so the box plot results may be biased. Among other styles of ramens, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores (despite that pack ramens have the most outliers with low rating scores). 
 
+According to the box plot, we can see that most ramens in the four styles have rating scores higher than 3 stars out of 5. The medians of stars for Bowl, Cup, Pack, and Tray ramens are similar (around 3.7 stars). Among the four styles, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores, despite that pack ramens have the most outliers with low rating scores. 
 
-## Counts of Ramens by Style
-Now let's check the counts of ramens included in each style.
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-most_various = 
-  tidy_ramen %>%
-  group_by(style) %>%
-  summarize(num_varieties = n()) %>%
-  mutate(style = fct_reorder(style, num_varieties)) %>%
-  plot_ly(x = ~style, y = ~num_varieties, color = ~style, type = "bar", 
-          text = ~num_varieties, textposition = 'auto', 
-          marker = list(color = 'viridis', 
-                        line = list(color = 'viridis', width = 1.5))) %>% 
-  layout(title = "Most common packing of ramen",
-         xaxis = list(title = "Styles"),
-         yaxis = list(title = "Number of Product")) 
+## Linear Model Stars depending on Style
 
-most_various
+We would love to know if the differences in rating scores are significant across these four styles. To do this, we decided to fit a linear model with stars as an outcome depending on style.
+
+### Model Fitting
+
+```{r, echo=FALSE, message=FALSE}
+lm_style = 
+  lm(stars ~ style, data = four_styles) 
+
+lm_style_output =   
+  lm_style %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  mutate(term = str_replace(term, "^style", "Style: ")) %>% 
+  kable(digits = 3)
+
+lm_style_output
 ```
 
-We see that the most common style of packaging is Pack ramen. The median of rating for Tray, Cup, Can, Pack, Bowl ramens are similar (around 3.7 stars). The median of Bar and Box ramen has the highest rating. However, since the samples of Bar, Can, Box ramens are low, we might neglect them at this moment.
+From the results (reference category: Bowl), we can see that the rating scores are not statistically significantly different across these 4 styles at a significant level of 0.05.
 
+### Model Diagnostics
 
-## Analysis of Ramen Rating Distribution by Style
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+lm_style_diag = 
+  four_styles %>% 
+  modelr::add_residuals(lm_style) %>% 
+  ggplot(aes(x = style, y = resid, fill = style)) +
+    geom_violin() +
+    labs(
+      x = "Style",
+      y = "Residual",
+      title = "Residual vs. Style"
+    )
 
-We would love to know if the differences in rating scores are significant across different ramen packaging styles. To do this, we decided to conduct an Analysis of Variance (ANOVA) test. As shown in the box plot above, there are only few ramens classified as Bar, Can or Box styles, so we will drop these styles in the following analysis, as they are not representative. 
+lm_style_diag
+```
 
-
-
+From the violin graph, we can see that the residual distribution by styles is generally left-skewed, indicating failures in model assumptions.
