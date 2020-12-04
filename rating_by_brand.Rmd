@@ -87,7 +87,8 @@ distri_various =
     title = "Rating Distribution Plot of the 5 Brands with Most Rated Varieties",
     x = "Brand",
     y = "Rating Stars"
-  )
+  ) +
+  theme(legend.position = "none")
 
 distri_various
 ```
@@ -125,7 +126,8 @@ prct_plot =
     title = "Percentage of 5 Stars Ramen among the 5 Brands with Most Rated Varieties",
     x = "Brand",
     y = "Percentage of 5 Stars"
-  )
+  ) +
+  theme(legend.position = "none")
 
 prct_plot
 ```
