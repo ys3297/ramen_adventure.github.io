@@ -90,6 +90,8 @@ We conducted data cleaning on the raw dataset, which included:
 
 ## Exploratory Analysis
 ### Top 10 Ramens by Country/Brand
+We generated bar charts of the number of top 10 ramen varieties for each country/brand as below:
+
 ```{r}
 top_country_bar = 
   tidy_ramen %>% 
@@ -140,7 +142,7 @@ In the Rating by Country page, we performed data analysis on the ramen variety c
 
 ### Exploration by Brand
 
-```{r, include=FALSE, message=FALSE, warning=FALSE}
+```{r}
 five_stars =
   tidy_ramen %>%
   select(brand, stars) %>%
@@ -154,7 +156,9 @@ zero_stars =
   filter(stars == 0)
 ```
 
-The total number of brands is `r nrow(count(tidy_ramen, brand))`. The number of brands with 5-star ramens is `r nrow(count(five_stars, brand))`, and the number of brands with 0-star ramens is `r nrow(count(zero_stars, brand))`. 
+The total number of brands is `r nrow(count(tidy_ramen, brand))`. The number of brands with 5-star ramens is `r nrow(count(five_stars, brand))`, and the number of brands with 0-star ramens is `r nrow(count(zero_stars, brand))`.  
+
+We first drew a bar chart to show the numbers of varieties for the 5 brands with most varieties rated.
 
 ```{r}
 most_various = 
@@ -167,10 +171,11 @@ most_various =
 most_various_plot =
   most_various %>%
   mutate(text_label = str_c("Brand: ", brand, "\nNumber of varieties: ", num_varieties)) %>% 
-  plot_ly(x = ~brand, y = ~num_varieties, color = ~brand, type = "bar", 
-          text = ~text_label,
-          marker = list(color = 'viridis', 
-                        line = list(color = 'white', width = 1.5))) %>% 
+  plot_ly(
+    x = ~brand, y = ~num_varieties, color = ~brand, type = "bar", 
+    text = ~text_label,
+    marker = list(line = list(color = 'white', width = 1.5))
+  ) %>% 
   layout(title = "5 Ramen Brands with Most Rated Varieties",
          xaxis = list(title = "Brand"),
          yaxis = list(title = "Number of Varieties")) 
@@ -178,7 +183,7 @@ most_various_plot =
 most_various_plot
 ```
 
-We grouped data by brands, counted the number of varieties for each brand, and drew a plot to show the 5 most various brands and their number of varieties.
+For these 5 brands, we created a box plot about their rating distributions.
 
 ```{r}
 distri_various = 
@@ -197,7 +202,9 @@ distri_various =
 distri_various
 ```
 
-For these 5 brands, we created a box plot about their rating stars and ordered as the above plot. The median rating stars of *Nissin*, *Nongshim*, and *Paldo* are close to 4 stars. The median of  *Mama* and *Maruchan* are lower than 4 stars. 75% of products of these 5 brands were rated above or equal to 3 Stars.
+The median rating stars for *Nissin*, *Nongshim*, and *Paldo* are close to 4 stars. The medians for *Mama* and *Maruchan* are lower than 4 stars. More than 75% of products of these 5 brands were rated above or equal to 3 Stars.  
+
+We then created a bar chart showing the percentage of 5-star for each brand from the lowest on the left to the highest on the right.
  
 ```{r}
 five_stars_various = 
@@ -232,7 +239,7 @@ prct_plot =
 prct_plot
 ```
 
-Since all 5 brands have 5-star ramen products, we calculated the number of 5-star ramens and the percentage of 5-star for each brand, created a bar chart, and ordered the chart by the percentage of 5-star ramens.  
+All of these 5 brands have at least one ramen variety that was rated as 5 stars. *Paldo* has the highest percentage of ramen varieties rated as 5 stars, while *Maruchan* has the lowest percentage of ramen varieties rated as 5 stars.
 
 ### Exploration by Type/Style
 

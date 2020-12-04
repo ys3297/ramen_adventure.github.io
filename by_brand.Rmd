@@ -101,9 +101,9 @@ distri_various =
 distri_various
 ```
 
-The above box plots show that the median rating stars of *Nissin*, *Nongshim*, and *Paldo* are close to 4 stars. The median of  *Mama* and *Maruchan* are lower than 4 stars. 75% of products of these 5 brands were rated above or equal to 3 Stars.
+The above box plots show that the median rating stars of *Nissin*, *Nongshim*, and *Paldo* are close to 4 stars. The median of  *Mama* and *Maruchan* are lower than 4 stars. 75% of products of these 5 brands were rated above or equal to 3 stars.
 
-Only *Paldo* and *Maruchan* have some ramen products that were rated as 0 Stars.
+Only *Paldo* and *Maruchan* have some ramen products that were rated as 0 stars.
 
 
 ```{r, echo=FALSE, message=FALSE}
@@ -131,7 +131,7 @@ prct_plot =
     nudge_y = 0.5
   ) +
   labs(
-    title = "Percentage of 5 Stars Ramen among the 5 Brands with Most Rated Varieties",
+    title = "Percentage of 5-Star Ramen among the 5 Brands with Most Rated Varieties",
     x = "Brand",
     y = "Percentage of 5 Stars (%)"
   )
@@ -139,8 +139,8 @@ prct_plot =
 prct_plot
 ```
 
-All of these 5 brands have at least one ramen variety that was rated as 5 Stars. *Paldo* has the highest percentage of ramen varieties rated as 5 Stars, while *Maruchan* has the lowest percentage of ramen varieties rated as 5 Stars.
+All of these 5 brands have at least one ramen variety that was rated as 5 stars. *Paldo* has the highest percentage of ramen varieties rated as 5 stars, while *Maruchan* has the lowest percentage of ramen varieties rated as 5 stars.
 
 ## Conclusion
 
-In this dataset, *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo* are the 5 brands with the largest number of varieties rated. The medians of stars for these 5 brands are higher than 3 Stars. *Paldo* has the highest percentage of ramen varieties rated as 5 Stars.
+In this dataset, *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo* are the 5 brands with the largest number of varieties rated. The medians of stars for these 5 brands are higher than 3 stars. *Paldo* has the highest percentage of ramen varieties rated as 5 stars.
