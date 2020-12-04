@@ -10,21 +10,25 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
+library(plotly)
+
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
   warning = FALSE)
-library(tidyverse)
-library(plotly)
+
+theme_set(theme_minimal() + theme(legend.position = "none"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
 
-<style type="text/css">
-
-h1.title {
-  text-align: center;
-}
-
-</style>
+<style type="text/css"></style>
 
 <center><img src="./pictures/about_ramen.jpg" style="width:75%"></center>
   
@@ -36,8 +40,7 @@ All members of the group are noodles lovers and want to look for the best instan
 ## Initial Questions
 * Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.
 * After we looked further into the dataset, we thought it would also be interesting if we explore more about:
-  * the overall rating distribution for each country and brand
-  * which country/brand produced the greatest number of 0-star/5-star/top 10 ramens. 
+  * Which country/brand produced the greatest number of top 10 ramens?
 
 ## Data
 ### Data Source and Structure
@@ -74,6 +77,52 @@ We conducted data cleaning on the raw dataset, which includes:
 * setting variables to the appropriate data type.
 
 ## Exploratory Analysis
+### Top 10 Ramens by Country/Brand
+```{r}
+top_country_bar = 
+  tidy_ramen %>% 
+  drop_na(rank) %>% 
+  count(country) %>% 
+  mutate(country = fct_reorder(country, n)) %>% 
+  ggplot(aes(x = country, y = n, fill = country)) +
+    geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 0.125
+    ) + 
+    labs(
+      title = "Number of top 10 ramen varieties produced by each country",
+      y = "Number of top 10 ramen varieties",
+      x = "Country"
+    )
+
+top_country_bar
+```
+
+```{r}
+top_brand_bar = 
+  tidy_ramen %>% 
+  drop_na(rank) %>% 
+  count(brand) %>% 
+  mutate(brand = fct_reorder(brand, n)) %>% 
+  ggplot(aes(x = brand, y = n, fill = brand)) +
+    geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 0.125
+    ) + 
+    labs(
+      title = "Number of top 10 ramen varieties produced by each brand",
+      y = "Number of top 10 ramen varieties",
+      x = "Brand"
+    ) +
+    theme(axis.text.x = element_text(angle = 30))
+
+top_brand_bar
+```
+
+Singapore was the country that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Singapore") %>% nrow()`), while Prima Taste was the brand that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "Prima Taste") %>% nrow()`).
+
 In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.  
 
 In the By Brand page, we counted the total number of brands in the `tidy_ramen` dataframe, the number of brands with 5-Stars ramen, and the number of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen.  

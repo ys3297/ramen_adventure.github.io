@@ -399,13 +399,7 @@ div.tocify {
 </div>
 
 
-<style type="text/css">
-
-h1.title {
-  text-align: center;
-}
-
-</style>
+<style type="text/css"></style>
 <center>
 <img src="pictures/about_ramen.jpg" style="width:75%">
 </center>
@@ -422,8 +416,7 @@ h1.title {
 <li>Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.</li>
 <li>After we looked further into the dataset, we thought it would also be interesting if we explore more about:
 <ul>
-<li>the overall rating distribution for each country and brand</li>
-<li>which country/brand produced the greatest number of 0-star/5-star/top 10 ramens.</li>
+<li>Which country/brand produced the greatest number of top 10 ramens?</li>
 </ul></li>
 </ul>
 </div>
@@ -467,8 +460,51 @@ h1.title {
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2>Exploratory Analysis</h2>
+<div id="top-10-ramens-by-countrybrand" class="section level3">
+<h3>Top 10 Ramens by Country/Brand</h3>
+<pre class="r"><code>top_country_bar = 
+  tidy_ramen %&gt;% 
+  drop_na(rank) %&gt;% 
+  count(country) %&gt;% 
+  mutate(country = fct_reorder(country, n)) %&gt;% 
+  ggplot(aes(x = country, y = n, fill = country)) +
+    geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 0.125
+    ) + 
+    labs(
+      title = &quot;Number of top 10 ramen varieties produced by each country&quot;,
+      y = &quot;Number of top 10 ramen varieties&quot;,
+      x = &quot;Country&quot;
+    )
+
+top_country_bar</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>top_brand_bar = 
+  tidy_ramen %&gt;% 
+  drop_na(rank) %&gt;% 
+  count(brand) %&gt;% 
+  mutate(brand = fct_reorder(brand, n)) %&gt;% 
+  ggplot(aes(x = brand, y = n, fill = brand)) +
+    geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 0.125
+    ) + 
+    labs(
+      title = &quot;Number of top 10 ramen varieties produced by each brand&quot;,
+      y = &quot;Number of top 10 ramen varieties&quot;,
+      x = &quot;Brand&quot;
+    ) +
+    theme(axis.text.x = element_text(angle = 30))
+
+top_brand_bar</code></pre>
+<p><img src="report_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Singapore was the country that had the most top 10 ramen varieties (7), while Prima Taste was the brand that had the most top 10 ramen varieties (5).</p>
 <p>In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.</p>
 <p>In the By Brand page, we counted the total number of brands in the <code>tidy_ramen</code> dataframe, the number of brands with 5-Stars ramen, and the number of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen.</p>
+</div>
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>

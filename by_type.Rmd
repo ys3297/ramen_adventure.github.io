@@ -10,6 +10,15 @@ output:
 library(tidyverse)
 library(knitr)
 library(plotly)
+
+theme_set(theme_minimal() + theme(legend.position = "none"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ```{r clean, include=FALSE}
@@ -71,8 +80,7 @@ distri_various =
     title = "Rating Distribution",
     x = "Ramen Style",
     y = "Rating Stars"
-  ) +
-  theme(legend.position = "none")
+  )
 
 distri_various
 ```
@@ -113,8 +121,7 @@ lm_style_diag =
       x = "Style",
       y = "Residual",
       title = "Residual vs. Style"
-    ) +
-    theme(legend.position = "none")
+    )
 
 lm_style_diag
 ```

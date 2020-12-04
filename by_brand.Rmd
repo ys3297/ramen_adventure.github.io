@@ -10,6 +10,15 @@ output:
 library(tidyverse)
 library(knitr)
 library(plotly)
+
+theme_set(theme_minimal() + theme(legend.position = "none"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
 
 
@@ -87,8 +96,7 @@ distri_various =
     title = "Rating Distribution Plot of the 5 Brands with Most Rated Varieties",
     x = "Brand",
     y = "Rating Stars (0-5)"
-  ) +
-  theme(legend.position = "none")
+  )
 
 distri_various
 ```
@@ -126,8 +134,7 @@ prct_plot =
     title = "Percentage of 5 Stars Ramen among the 5 Brands with Most Rated Varieties",
     x = "Brand",
     y = "Percentage of 5 Stars (%)"
-  ) +
-  theme(legend.position = "none")
+  )
 
 prct_plot
 ```

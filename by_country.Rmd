@@ -9,6 +9,15 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly)
+
+theme_set(theme_minimal() + theme(legend.position = "none"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ```{r, include=FALSE}
@@ -53,7 +62,7 @@ top10_country =
       y = "Number of ramen varieties",
       x = "Country"
     ) +
-    theme(legend.position = "none", axis.text.x = element_text(angle = 30))
+    theme(axis.text.x = element_text(angle = 30))
 
 top10_country
 ```
