@@ -18,9 +18,10 @@ library(patchwork)
 tidy_ramen = 
   read_csv("./ramen-ratings.csv") %>% 
   janitor::clean_names() %>% 
-  drop_na(style) %>% 
   separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
   mutate(
+    country = str_replace(country, "Hong Kong", "China"),
+    country = str_replace(country, "Taiwan", "China"),
     style = factor(style),
     country = factor(country),
     brand = factor(brand),
@@ -29,15 +30,16 @@ tidy_ramen =
 ```
 
 ## Background Introduction 
-In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the texture and flavor of ramen - some of us prefer cup noodles, while some prefer packaged noodles. In the following adventure, let's see if the packaging style makes a difference!
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the rating of ramen by Hans - some of us prefer cup noodles, while some prefer packaged noodles. In the following adventure, let's see if the packaging style makes a difference!
 
-![](pictures/package.jpg)
+<center><img src="./pictures/package.jpg"></center>
+
 ## Distribution of Rating by Style
 First, let's take a look at the distribtion of ramen rating by packaging style. 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 distri_various = 
   tidy_ramen %>%
-  drop_na(stars) %>%
+  drop_na(stars, style) %>%
   ggplot(aes(x = style, y = stars, color = style)) + 
   geom_boxplot() +
   labs(
