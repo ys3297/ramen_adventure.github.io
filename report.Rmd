@@ -2,28 +2,85 @@
 title: "Ramen Adventure Report"
 output: 
   html_document:
-    toc: true
-    toc_float: true
+    toc: TRUE
+    toc_float: TRUE
+    code_folding: hide
+editor_options: 
+  chunk_output_type: console
 ---
+
+```{r setup, include=FALSE}
+options(scipen = 999) # keeps R from using scientific notation with large GEOIDs
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE)
+library(tidyverse)
+library(plotly)
+```
+
+<style type="text/css">
+
+h1.title {
+  text-align: center;
+}
+
+</style>
+
 <center><img src="./pictures/about_ramen.jpg" style="width:75%"></center>
   
-### Motivation
+## Motivation
 All members of the group are noodles lovers and want to look for the best instant noodles to purchase as well as the worst instant noodles to avoid purchasing in the future. We found an amazing dataset about ramen ratings in Kaggle and decided to use it as a reference to answer our questions. We believed that this Ramen Adventure project would be an interesting topic to discuss!
 
-### Questions
-Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset. This was answered by the ratings of the instant noodles that the rater had tried as well as the top 10 lists of each year from 2012 to 2016.  
-After we looked further into the dataset, we thought it would also be interesting if we explore more about the overall rating distribution for each country and brand, and which country/brand produced the greatest number of 0-star/5-star/top 10 ramens. 
+## Related work?
 
-### Data
-The dataset was republished according to [The Ramen Rater](https://www.theramenrater.com/) by Aleksey Bilogur. It can be accessed [here](https://www.kaggle.com/residentmario/ramen-ratings).  
-[The Ramen Rater](https://www.theramenrater.com/) is a website on which Hans Lienesch posted his reviews of instant noodles.  
-Each record in the raw dataset is a single ramen product review. `Review #` is contiguous: more recently reviewed ramen varieties have higher numbers. `Brand`, `Variety` (the product name), `Country`, and `Style` (Cup? Bowl? Tray?) are pretty self-explanatory. `Stars` indicates the ramen quality, as assessed by the reviewer, on a 5-point scale. The raw dataset also includes a `Top Ten` column to show the rank and rated year of each top 10 ramen.  
+## Initial questions
+* Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.
+* After we looked further into the dataset, we thought it would also be interesting if we explore more about:
+  * the overall rating distribution for each country and brand
+  * which country/brand produced the greatest number of 0-star/5-star/top 10 ramens. 
 
-### Methods
-We conducted data cleaning on the raw dataset, which includes: separating the variable "top_ten" into two columns ("year" and "rank"), recoding values "Taiwan", "Hong Kong" for `country` as "China" to keep consistency of level with other values, and setting variables to the appropriate data type.
+## Data
+### Data source and structure
+* The dataset was republished according to [The Ramen Rater](https://www.theramenrater.com/) by Aleksey Bilogur. It can be accessed [here](https://www.kaggle.com/residentmario/ramen-ratings).  
+* [The Ramen Rater](https://www.theramenrater.com/) is a website on which Hans Lienesch posted his reviews of instant noodles.  
+* Each record in the raw dataset is a single ramen product review:
+  * `Review #`: The unique ID for reviews. More recently reviewed ramen varieties have higher numbers. 
+  * `Brand`: The brand name of the ramen variety.
+  * `Variety`: The product name.
+  * `Country`: The country where the ramen variety is from. 
+  * `Style`: The package tyle/style of the ramen variety.
+  * `Stars` indicates the ramen quality, as assessed by the rater, Hans, on a 5-point scale. 
+  * `Top Ten`: The rank and rated year of each top 10 ramen.  
 
-On the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.
+### Data cleaning
+```{r clean data}
+tidy_ramen = 
+  read_csv("./ramen-ratings.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(top_ten, into = c("year", "rank"), sep = " #", convert = TRUE) %>% 
+  mutate(
+    country = str_replace(country, "Hong Kong", "China"),
+    country = str_replace(country, "Taiwan", "China"),
+    style = factor(style),
+    country = factor(country),
+    brand = factor(brand),
+    stars = as.numeric(stars)
+  )
+```
 
-On the By Brand page, we counted the total number of brands in the `tidy_ramen` dataframe, the number of brands with 5-Stars ramen, and the numbe of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen. 
+We conducted data cleaning on the raw dataset, which includes: 
+* separating the variable "top_ten" into two columns ("year" and "rank");
+* recoding values "Taiwan", "Hong Kong" for `country` as "China" to keep consistency of level with other values;
+* setting variables to the appropriate data type.
+
+## Exploratory analysis
+In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.  
+
+In the By Brand page, we counted the total number of brands in the `tidy_ramen` dataframe, the number of brands with 5-Stars ramen, and the numbe of brands with 0-Stars ramen. We grouped data by brands, counted the number of variety for each brand, drew a plot to show the 5 most various brands and their number of variety. For these 5 brands, we drew a boxplot about their rating stars and ordered as the above plot, compared their median, minumum, and maximum. Since all 5 brands have 5-Stars ramen products, we calculated the number of 5-Stars ramen, join 2 dataframes, calculated the percentage of 5-Stars for each brand, drew a barplot and ordered by the absolute percentage of 5-Stars ramen.  
+
+## Additional analysis
+
+## Discussion
 
 
