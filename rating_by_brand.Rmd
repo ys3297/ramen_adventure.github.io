@@ -86,7 +86,7 @@ distri_various =
   labs(
     title = "Rating Distribution Plot of the 5 Brands with Most Rated Varieties",
     x = "Brand",
-    y = "Rating Stars"
+    y = "Rating Stars (0-5)"
   ) +
   theme(legend.position = "none")
 
@@ -125,7 +125,7 @@ prct_plot =
   labs(
     title = "Percentage of 5 Stars Ramen among the 5 Brands with Most Rated Varieties",
     x = "Brand",
-    y = "Percentage of 5 Stars"
+    y = "Percentage of 5 Stars (%)"
   ) +
   theme(legend.position = "none")
 
