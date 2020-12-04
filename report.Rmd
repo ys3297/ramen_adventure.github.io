@@ -44,9 +44,15 @@ All members of the group are noodles lovers and want to look for the best instan
 ## Initial Questions
 * Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.
 * After we looked further into the dataset, we thought it would also be interesting if we explore more about:
-  * Which country/brand produced the greatest number of top 10 ramens?
-  * 
-  * Which 5 brands produced the most varieties? What are the rating stars distribution of these 5 brands? For these 5 brands, what are their percentage of 5-Stars ramen?
+  * TOP TEN
+    - Which country/brand produced the greatest number of top 10 ramens?
+    - Which 5 brands produced the most varieties? What are the rating stars distribution of these 5 brands? For these 5 brands, what are their percentage of 5-Stars ramen?
+  
+  &nbsp;
+  
+  * BY COUNTRY
+    - Which countries produced the most varieties of ramens? What is the ramen rating stars distribution among the top ramen produce countries?
+    - What are top 3 countries that have the highest average ramen rating stars recorded in our dataset? What about the bottom 3? 
 
 &nbsp;
 
@@ -166,7 +172,7 @@ top10_country =
 top10_country
 ```
 
-Initially we would love to plot rating distribution graph on the top 3 ramen produce countries. However, after checking the bar graph result, we decided to include the top 4 ramen produce countries in the following analysis, since the counts of ramen varieties produced by the 3rd and 4th countries are pretty close. Consequently, we created a violin graph for the average rating distribution among the top 4 ramen produce countries.
+Initially we would love to plot ramen rating stars distribution graph on the top 3 ramen produce countries. However, after checking the bar graph result, we decided to include the top 4 ramen produce countries in the following analysis, since the counts of ramen varieties produced by the 3rd and 4th countries are pretty close. Consequently, we created a violin graph for the rating stars distribution among the top 4 ramen produce countries.
 ```{r, echo=FALSE, message=FALSE}
 top4_violin = 
   tidy_ramen %>%
