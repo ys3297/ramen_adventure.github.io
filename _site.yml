@@ -6,9 +6,9 @@ navbar:
     - text: "Top 10"
       href: top_ten.html   
     - text: "By Country"
-      href: rating_by_country.html
+      href: by_country.html
     - text: "By Brand"
-      href: rating_by_brand.html
+      href: by_brand.html
     - text: "By Type"
       href: by_type.html
     - text: "Report"

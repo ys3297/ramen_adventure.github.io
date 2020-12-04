@@ -10,7 +10,6 @@ output:
 library(tidyverse)
 library(knitr)
 library(plotly)
-library(patchwork)
 ```
 
 ```{r clean, include=FALSE}
@@ -120,4 +119,9 @@ lm_style_diag =
 lm_style_diag
 ```
 
-From the violin graph, we can see that the residual distribution by styles is generally left-skewed, indicating failures in model assumptions.
+From the violin graph, we can see that the residual distribution by styles is generally left-skewed, indicating that linear regression model might not be an appropriate approach for the question based on this dataset because of the assumption violation.  
+The reasons for the violation may include:
+<ul>
+<li>the dataset of ramen varieties is actually not a random sample from all varieties all over the world;
+<li>the underlying distribution of ramen ratings is probably not normal, since the ratings were just based on the rater's personal preference.
+</ul>
