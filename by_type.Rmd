@@ -41,11 +41,10 @@ most_various =
   group_by(style) %>%
   summarize(num_varieties = n()) %>%
   mutate(
-    style = fct_reorder(style, num_varieties),
-    text_label = str_c("Style: ", style, "\nNumber of varieties: ", num_varieties)  
+    style = fct_reorder(style, num_varieties)
   ) %>%
   plot_ly(x = ~style, y = ~num_varieties, color = ~style, type = "bar", 
-          text = ~text_label, 
+          text = ~num_varieties, textposition = "outside",
           marker = list(color = 'viridis', 
                         line = list(color = 'viridis', width = 1.5))) %>% 
   layout(title = "Most common packing of ramen",
@@ -73,7 +72,8 @@ distri_various =
     title = "Rating Distribution",
     x = "Ramen Style",
     y = "Rating Stars"
-  )
+  ) +
+  theme(legend.position = "none")
 
 distri_various
 ```
@@ -114,7 +114,8 @@ lm_style_diag =
       x = "Style",
       y = "Residual",
       title = "Residual vs. Style"
-    )
+    ) +
+    theme(legend.position = "none")
 
 lm_style_diag
 ```
