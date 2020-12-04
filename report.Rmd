@@ -10,7 +10,6 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-options(scipen = 999) # keeps R from using scientific notation with large GEOIDs
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
