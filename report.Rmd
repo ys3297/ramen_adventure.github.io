@@ -15,7 +15,7 @@ Primarily, we just wanted to know what are the best and worst instant noodles ac
 After we looked further into the dataset, we thought it would also be interesting if we explore more about the overall rating distribution for each country and brand, and which country/brand produced the greatest number of 0-star/5-star/top 10 ramens. 
 
 ### Data
-The dataset was republished according to [The Ramen Rater](https://www.theramenrater.com/) by Aleksey Bilogur. It can be accessed [here](https://www.kaggle.com/residentmario/ramen-ratings)  
+The dataset was republished according to [The Ramen Rater](https://www.theramenrater.com/) by Aleksey Bilogur. It can be accessed [here](https://www.kaggle.com/residentmario/ramen-ratings).  
 [The Ramen Rater](https://www.theramenrater.com/) is a website on which Hans Lienesch posted his reviews of instant noodles.  
 Each record in the raw dataset is a single ramen product review. `Review #` is contiguous: more recently reviewed ramen varieties have higher numbers. `Brand`, `Variety` (the product name), `Country`, and `Style` (Cup? Bowl? Tray?) are pretty self-explanatory. `Stars` indicates the ramen quality, as assessed by the reviewer, on a 5-point scale. The raw dataset also includes a `Top Ten` column to show the rank and rated year of each top 10 ramen.  
 
