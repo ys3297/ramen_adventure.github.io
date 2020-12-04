@@ -132,7 +132,7 @@ prct_plot =
 prct_plot
 ```
 
-All of these 5 brands have at least one ramen was rated as 5 Stars. *Paldo* has the highest percentage of ramen rated as 5 Stars, while *Maruchan* has the lowest percentage of ramen rated as 5 Stars.
+All of these 5 brands have at least one ramen variety that was rated as 5 Stars. *Paldo* has the highest percentage of ramen varieties rated as 5 Stars, while *Maruchan* has the lowest percentage of ramen varieties rated as 5 Stars.
 
 ## Conclusion
 
