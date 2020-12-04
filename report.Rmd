@@ -183,6 +183,9 @@ most_various_plot =
 most_various_plot
 ```
 
+*Nissin* is the winner with `r tidy_ramen %>% filter(brand == 'Nissin') %>% summarize(count = n())` ramen varieties rated. The second to fifth brands are *Nongshim*, *Maruchan*, *Mama*, and *Paldo*. Each of them has about 60 to 100 ramen varieties rated.  
+
+
 For these 5 brands, we created a box plot about their rating distributions.
 
 ```{r}
