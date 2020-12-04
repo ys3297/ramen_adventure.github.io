@@ -9,7 +9,6 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(knitr)
-library(ggridges)
 library(plotly)
 ```
 
@@ -27,11 +26,10 @@ tidy_ramen =
   )
 ```
 
----
 ## Background Introduction 
 In this Ramen dataset, there are `r nrow(count(tidy_ramen, brand))` brands. In the following adventure, let's explore the varieties and rating of these brands!
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, include=FALSE, message=FALSE, warning=FALSE}
 five_stars =
   tidy_ramen %>%
   select(brand, stars) %>%
@@ -45,11 +43,11 @@ zero_stars =
   filter(stars == 0)
 ```
 
-Among the total 355 brands, `r nrow(count(five_stars, brand)) ` brands have at least one ramen rated 5 stars, while `r nrow(count(zero_stars, brand)) ` brands have at least one ramen rated 0 stars.
+Among all brands in the dataset, `r nrow(count(five_stars, brand)) ` brands have at least one ramen variety that was rated 5 stars, while `r nrow(count(zero_stars, brand)) ` brands have at least one ramen variety that was rated 0 stars.
 
-<img src="pictures/nissin.jpg" style="width:15%"> <img src="pictures/nongshim.jpg" style="width:15%"> <img src="pictures/maruchan.png" style="width:15%"> <img src="pictures/mama.jpg" style="width:15%"> <img src="pictures/paldo.png" style="width:15%">
+<center><img src="pictures/nissin.jpg" style="width:15%"> <img src="pictures/nongshim.jpg" style="width:15%"> <img src="pictures/maruchan.png" style="width:15%"> <img src="pictures/mama.jpg" style="width:15%"> <img src="pictures/paldo.png" style="width:15%"></center>
 
-## 5 Most Various Brands
+## 5 Brands with Most Rated Varieties
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 most_various = 
@@ -61,18 +59,19 @@ most_various =
 
 most_various_plot =
   most_various %>%
+  mutate(text_label = str_c("Brand: ", brand, "\nNumber of varieties: ", num_varieties)) %>% 
   plot_ly(x = ~brand, y = ~num_varieties, color = ~brand, type = "bar", 
-          text = ~num_varieties, textposition = 'auto', 
+          text = ~text_label,
           marker = list(color = 'viridis', 
                         line = list(color = 'white', width = 1.5))) %>% 
-  layout(title = "5 Ramen Brands with the Widest Varieties",
-         xaxis = list(title = "Brand Name"),
+  layout(title = "5 Ramen Brands with Most Rated Varieties",
+         xaxis = list(title = "Brand"),
          yaxis = list(title = "Number of Varieties")) 
 
 most_various_plot
 ```
 
-As shown in the above plot, *Nissin* is the winner with `r tidy_ramen %>% filter(brand == 'Nissin') %>% summarize(count = n())` types of ramen. The 2nd to 5th brands are *Nongshim*, *Maruchan*, *Mama*, and *Paldo*. Each of them has more than 60 but less than 100 types of ramen.
+As shown in the above plot, *Nissin* is the winner with `r tidy_ramen %>% filter(brand == 'Nissin') %>% summarize(count = n())` ramen varieties rated. The second to fifth brands are *Nongshim*, *Maruchan*, *Mama*, and *Paldo*. Each of them has about 60 to 100 ramen varieties rated.
 
 ### Distribution of Rating Stars
 
@@ -85,17 +84,17 @@ distri_various =
   ggplot(aes(x = brand, y = stars, color = brand)) + 
   geom_boxplot() +
   labs(
-    title = "Rating Distribution Plot of the 5 Most Various Brands",
-    x = "Brand Name",
+    title = "Rating Distribution Plot of the 5 Brands with Most Rated Varieties",
+    x = "Brand",
     y = "Rating Stars"
   )
 
 distri_various
 ```
 
-The above boxplots show that the median rating stars of *Nissin*, *Nongshim*, and *Paldo* are close to `4 stars`. The median of  *Mama* and *Maruchan* are lower than `4 stars`. 75% of products of these 5 brands were rated above or equal to `3 Stars`.
+The above box plots show that the median rating stars of *Nissin*, *Nongshim*, and *Paldo* are close to 4 stars. The median of  *Mama* and *Maruchan* are lower than 4 stars. 75% of products of these 5 brands were rated above or equal to 3 Stars.
 
-Only *Paldo* and *Maruchan* have some ramen products were rated as `0 Stars`.
+Only *Paldo* and *Maruchan* have some ramen products that were rated as 0 Stars.
 
 
 ```{r, echo=FALSE, message=FALSE}
@@ -111,24 +110,28 @@ num_five_various =
   full_join(
     most_various, five_stars_various, by = c("brand")
   ) %>%
-  mutate(prct = num_five / num_varieties)
+  mutate(prct = num_five / num_varieties * 100)
 
 prct_plot = 
   num_five_various %>%
   mutate(brand = fct_reorder(brand, prct)) %>% 
   ggplot(aes(x = brand, y = prct, fill = brand)) + 
-  geom_bar(stat = "identity") +
+  geom_col() +
+  geom_text(
+    aes(label = round(prct, 2)),
+    nudge_y = 0.5
+  ) +
   labs(
-    title = "Percentage of 5 Stars Ramen among the 5 Most Various Brands",
-    x = "Brand Name",
+    title = "Percentage of 5 Stars Ramen among the 5 Brands with Most Rated Varieties",
+    x = "Brand",
     y = "Percentage of 5 Stars"
   )
 
 prct_plot
 ```
 
-All of these 5 brands have at least one ramen was rated as `5 Stars`. *Paldo* has the highest percentage of ramen rated as `5 Stars`, while *Maruchan* has the lowest percentage of ramen rated as `5 Stars`.
+All of these 5 brands have at least one ramen was rated as 5 Stars. *Paldo* has the highest percentage of ramen rated as 5 Stars, while *Maruchan* has the lowest percentage of ramen rated as 5 Stars.
 
 ## Conclusion
 
-There are 355 ramen brands in this dataset. *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo* are the 5 brands the largest number of varieties. The median of these 5 brands are higher than `3 Stars`. *Paldo* has the highest percentage of ramen rated as `5 Stars`.
+In this dataset, *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo* are the 5 brands with the largest number of varieties rated. The medians of stars for these 5 brands are higher than 3 Stars. *Paldo* has the highest percentage of ramen varieties rated as 5 Stars.
