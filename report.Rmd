@@ -204,7 +204,7 @@ distri_various
 
 The median rating stars for *Nissin*, *Nongshim*, and *Paldo* are close to 4 stars. The medians for *Mama* and *Maruchan* are lower than 4 stars. More than 75% of products of these 5 brands were rated above or equal to 3 Stars.  
 
-We then created a bar chart showing the percentage of 5-star for each brand from the lowest on the left to the highest on the right.
+We then created a bar chart showing the percentage of 5-star for each of these 5 brands from the lowest on the left to the highest on the right.
  
 ```{r}
 five_stars_various = 
