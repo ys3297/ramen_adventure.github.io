@@ -137,8 +137,100 @@ top_brand_bar
 
 Singapore was the country that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(country == "Singapore") %>% nrow()`), while Prima Taste was the brand that had the most top 10 ramen varieties (`r tidy_ramen %>% drop_na(rank) %>% filter(brand == "Prima Taste") %>% nrow()`).
 
+
 ### Exploration by Country
-In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries and created average rating distribution graphs for the top four ramen produce countries. Then, we calculated the average ramen rating scores for each country in our dataset to find the top three and bottom three countries.  
+
+In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries. We created a bar graph of the top 10 ramen produce countries with their counts of ramen varieties labeled on the graph. 
+```{r, echo=FALSE, message=FALSE}
+top10_country = 
+  tidy_ramen %>%
+  count(country) %>%
+  mutate(
+    country = fct_reorder(country, n),
+    country_rank = min_rank(desc(n))
+  ) %>%
+  filter(country_rank <= 10) %>% 
+  ggplot(aes(x = country, y = n, fill = country)) +
+    geom_col() +
+    geom_text(
+      aes(label = n),
+      nudge_y = 10
+    ) +
+    labs(
+      title = "Top 10 ramen produce countries",
+      y = "Number of ramen varieties",
+      x = "Country"
+    ) +
+    theme(axis.text.x = element_text(angle = 30))
+
+top10_country
+```
+
+Initially we would love to plot rating distribution graph on the top 3 ramen produce countries. However, after checking the bar graph result, we decided to include the top 4 ramen produce countries in the following analysis, since the counts of ramen varieties produced by the 3rd and 4th countries are pretty close. Consequently, we created a violin graph for the average rating distribution among the top 4 ramen produce countries.
+```{r, echo=FALSE, message=FALSE}
+top4_violin = 
+  tidy_ramen %>%
+  filter(country == c("China", "Japan", "USA", "South Korea")) %>%
+  drop_na(stars) %>%
+  ggplot(aes(x = country, y = stars, fill = country)) + 
+  geom_violin() +
+  labs(
+    title = "Ramen rating distribution among Japan, USA, and South Korea",
+    x = "Stars (0-5)",
+    y = "Country"
+  )
+
+top4_violin
+```
+
+Our next step was to calculate the average ramen rating stars for each country in our dataset to find the top three and bottom three countries. But before doing that, we need to check if the number of ramens rated and recorded in our dataset is large enough to present the average ramen rating stars for each country. 
+
+To do this, we ploted a scatter plot of average rating stars vs. count of ramen varieties for each country.
+```{r, echo=FALSE, message=FALSE}
+num_var_country = 
+  tidy_ramen %>% 
+  count(country)
+
+avg_country = 
+  tidy_ramen %>% 
+  group_by(country) %>% 
+  summarize(avg = round(mean(stars, na.rm = TRUE), 2))
+
+avg_num_country = 
+  num_var_country %>% 
+  inner_join(avg_country, by = "country")
+
+scatter_avg_num = 
+  avg_num_country %>% 
+  ggplot(aes(x = n, y = avg)) +
+    geom_point(color = "Orange") +
+    labs(
+      x = "Number of varieties rated",
+      y = "Average stars",
+      title = "Average stars vs. Number of varieties rated for countries"
+    )
+
+scatter_avg_num
+```
+
+After checking the scatter plot, we decided to focus on only countries with 30 or more varieties rated and recorded in our dataset, and created a bar chart for the average ramen rating stars for these countries. 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+avg_country_bar = 
+  avg_num_country %>%
+  filter(n >= 30) %>% 
+  mutate(
+    country = fct_reorder(country, avg),
+    text_label = str_c("Country: ", country, "\nAverage Stars: ", avg)
+  ) %>%
+  plot_ly(x = ~country, y = ~avg, color = ~country, type = "bar", text = ~text_label) %>% 
+  layout(
+    title = "Average stars for each country with 30 or more varieties rated",
+    xaxis = list(title = "Country"),
+    yaxis = list(title = "Average stars")
+  )
+
+avg_country_bar
+```
 
 ### Exploration by Brand
 
