@@ -80,7 +80,7 @@ distri_various
 
 According to the box plot, we can see that most ramens in the four styles have rating scores higher than 3 stars out of 5. The medians of stars for Bowl, Cup, Pack, and Tray ramens are similar (around 3.7 stars). Among the four styles, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores, despite that pack ramens have the most outliers with low rating scores. 
 
-## Linear Model Stars depending on Style
+## Linear Model
 
 We would love to know if the differences in rating scores are significant across these four styles. To do this, we decided to fit a linear model with stars as an outcome depending on style.
 
