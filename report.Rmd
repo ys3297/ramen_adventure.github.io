@@ -12,6 +12,7 @@ editor_options:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly)
+library(knitr)
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -345,8 +346,8 @@ prct_plot
 
 All of these 5 brands have at least one ramen variety that was rated as 5 stars. *Paldo* has the highest percentage of ramen varieties rated as 5 stars, while *Maruchan* has the lowest percentage of ramen varieties rated as 5 stars.
 
-### Exploration by Type/Style
-In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the rating of ramen by Hans - similar to that coke in can is always better than coke in plastic bottle.  
+### Exploration by Style
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging styles. We wonder if different packaging styles may affect the rating of ramen by Hans - similar to that coke in can is always better than coke in plastic bottle.  
 
 First, we created a bar plot for the number of rated varieties in each style.
 
@@ -451,8 +452,8 @@ However, we are worried about that the result from this dataset might be biased,
 ### By Brand
 From our study results on ramen rating by brand, we conclude that the ramens produced by the 5 brands with most varieties rated in the dataset, *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo*, were generally favored by Hans, with over 75% of ramens produced by these 5 brands rated 3 or more stars. This is not surprising, since we believe that having many ramen varieties can somehow indicate professionalism in making instant noodles.  
 
-### By Type/Style
-We fitted a linear regression model to compare the rating across ramens in different types/styles, excluding some types with too few varieties recorded in the dataset. However, there seems to be assumption violation, because the residual distribution by styles is left-skewed.  
+### By Style
+We fitted a linear regression model to compare the rating across ramens in different styles, excluding some types with too few varieties recorded in the dataset. However, there seems to be assumption violation, because the residual distribution by styles is left-skewed.  
 The reasons for the violation may include:  
 
 * The dataset of ramen varieties is actually not a random sample from all varieties all over the world.
