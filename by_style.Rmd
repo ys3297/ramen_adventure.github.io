@@ -1,5 +1,5 @@
 ---
-title: "Rating By Style"
+title: "Rating by Style"
 output: 
   html_document:
     toc: true
