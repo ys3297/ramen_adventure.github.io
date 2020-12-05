@@ -139,6 +139,7 @@ Singapore was the country that had the most top 10 ramen varieties (`r tidy_rame
 ### Exploration by Country
 
 For this section, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries. We created a bar graph of the top 10 ramen produce countries with their counts of ramen varieties labeled on the graph. 
+
 ```{r}
 top10_country = 
   tidy_ramen %>%
@@ -361,9 +362,9 @@ most_various =
           text = ~num_varieties, textposition = "outside",
           marker = list(color = 'viridis', 
                         line = list(color = 'viridis', width = 1.5))) %>% 
-  layout(title = "Most common packing of ramen",
-         xaxis = list(title = "Styles"),
-         yaxis = list(title = "Number of Product")) 
+  layout(title = "Number of Rated Varieties in Each Style",
+         xaxis = list(title = "Style"),
+         yaxis = list(title = "Number of varieties")) 
 
 most_various
 ```
@@ -383,9 +384,9 @@ distri_various =
   ggplot(aes(x = style, y = stars, color = style)) + 
   geom_boxplot() +
   labs(
-    title = "Rating Distribution",
-    x = "Ramen Style",
-    y = "Rating Stars"
+    title = "Rating Distribution of Different Styles",
+    x = "Style",
+    y = "Stars (0-5)"
   )
 
 distri_various
