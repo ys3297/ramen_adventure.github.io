@@ -369,4 +369,10 @@ All of these 5 brands have at least one ramen variety that was rated as 5 stars.
 
 ## Discussion
 
+From our study results on ramen rating by country, we conclude that most ramens rated in our dataset were produced by Asian countries (8 out of 10 of the top ramen produce countries are from Asia). This makes sense because Asian countries are the major consumers of ramens. 
+
+We also noticed that Malaysia, Singapore, and Indonesia had the highest average ramen rating stars (all above 4 stars out of 5). This finding aligns with the result from TOP TEN analysis, where we found that Singapore had the most top 10 ramen varieties, followed by Malaysia and Japan. 
+
+However, we are worried that the result from this dataset might be biased, considering that some countries in the dataset didn't have enough ramen varieties recorded and we had to exclude them from our analysis. Further analysis is needed on a dataset with larger sample size. 
+
 
