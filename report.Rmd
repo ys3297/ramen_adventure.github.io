@@ -139,7 +139,7 @@ Singapore was the country that had the most top 10 ramen varieties (`r tidy_rame
 ### Exploration by Country
 
 For this section, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries. We created a bar graph of the top 10 ramen produce countries with their counts of ramen varieties labeled on the graph. 
-```{r, echo=FALSE, message=FALSE}
+```{r}
 top10_country = 
   tidy_ramen %>%
   count(country) %>%
@@ -169,7 +169,7 @@ The top four countries that had the most ramen varieties rated are China (n = `r
 Initially we would love to plot ramen rating stars distribution graph on the top 3 ramen produce countries. However, after checking the bar graph result, we decided to include the top 4 ramen produce countries in the following analysis, since the counts of ramen varieties produced by the 3rd and 4th countries (USA and South Korea, with 323 and 309 respectively) are pretty close.  
 
 Consequently, we created a violin graph for the rating stars distribution among the top 4 ramen produce countries.
-```{r, echo=FALSE, message=FALSE}
+```{r}
 top4_violin = 
   tidy_ramen %>%
   filter(country == c("China", "Japan", "USA", "South Korea")) %>%
@@ -190,7 +190,7 @@ According to the graph, it appears that most rated ramen varieties from China, S
 Our next step was to calculate the average ramen rating stars for each country in our dataset to find the top three and bottom three countries. But before doing that, we need to check if the number of ramens rated and recorded in our dataset is large enough to present the average ramen rating stars for each country.  
 
 To do this, we ploted a scatter plot of average rating stars vs. count of ramen varieties for each country.
-```{r, echo=FALSE, message=FALSE}
+```{r}
 num_var_country = 
   tidy_ramen %>% 
   count(country)
@@ -218,7 +218,7 @@ scatter_avg_num
 ```
 
 After checking the scatter plot, we decided to focus on only countries with 30 or more varieties rated and recorded in our dataset, and created a bar chart for the average ramen rating stars for these countries. 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r}
 avg_country_bar = 
   avg_num_country %>%
   filter(n >= 30) %>% 
