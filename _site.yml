@@ -9,8 +9,8 @@ navbar:
       href: by_country.html
     - text: "By Brand"
       href: by_brand.html
-    - text: "By Type"
-      href: by_type.html
+    - text: "By Style"
+      href: by_style.html
     - text: "Report"
       href: report.html
     - icon: fa-youtube fa-lg
