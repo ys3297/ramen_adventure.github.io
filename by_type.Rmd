@@ -1,5 +1,5 @@
 ---
-title: "Ramen Rating By Type/Style"
+title: "Rating By Type/Style"
 output: 
   html_document:
     toc: true
@@ -37,7 +37,7 @@ tidy_ramen =
 ```
 
 ## Background Introduction 
-In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the rating of ramen by Hans - some of us prefer cup noodles, while some prefer packaged noodles. In the following adventure, let's see if the packaging style makes a difference!
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the rating of ramen by Hans - similar to that coke in can is always better than coke in plastic bottle. In the following adventure, let's see if the packaging style makes a difference!
 
 <center><img src="./pictures/package.jpg"></center>
 
@@ -65,7 +65,7 @@ most_various
 We see that the style of mast varieties rated is Pack, with `r tidy_ramen %>% filter(style == "Pack") %>% nrow()` varieties rated in the dataset. Since there are too few ramen varieties in Bar (`r tidy_ramen %>% filter(style == "Bar") %>% nrow()`), Can ((`r tidy_ramen %>% filter(style == "Can") %>% nrow()`)), and Box (`r tidy_ramen %>% filter(style == "Box") %>% nrow()`), we'll exclude these styles in the following analysis.
 
 ## Distribution of Rating by Style
-Then, let's take a look at the distribtion of ramen rating by packaging style. 
+Then, let's take a look at the distribution of ramen rating by packaging style. 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 four_styles = 
   tidy_ramen %>%
@@ -85,7 +85,7 @@ distri_various =
 distri_various
 ```
 
-According to the box plot, we can see that most ramens in the four styles have rating scores higher than 3 stars out of 5. The medians of stars for Bowl, Cup, Pack, and Tray ramens are similar (around 3.7 stars). Among the four styles, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores, despite that pack ramens have the most outliers with low rating scores. 
+According to the box plot, we can see that most ramens in the four styles have rating scores higher than 3 stars out of 5. The medians of stars for Bowl, Cup, Pack, and Tray ramens are similar (around 3.7 stars). Among the four styles, generally, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores, despite that pack ramens have the most outliers with low rating scores. 
 
 ## Linear Model
 
@@ -129,6 +129,6 @@ lm_style_diag
 From the violin graph, we can see that the residual distribution by styles is generally left-skewed, indicating that linear regression model might not be an appropriate approach for the question based on this dataset because of the assumption violation.  
 The reasons for the violation may include:
 <ul>
-<li>the dataset of ramen varieties is actually not a random sample from all varieties all over the world;
-<li>the underlying distribution of ramen ratings is probably not normal, since the ratings were just based on the rater's personal preference.
+<li>The dataset of ramen varieties is actually not a random sample from all varieties all over the world.
+<li>The underlying distribution of ramen ratings is probably not normal, since the ratings were just based on the rater's personal preference.
 </ul>

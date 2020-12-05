@@ -37,10 +37,6 @@ All members of the group are noodles lovers and want to look for the best instan
 
 &nbsp;
 
-## Related Work?
-
-&nbsp;
-
 ## Initial Questions
 * Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.
 * After we looked further into the dataset, we thought it would also be interesting if we explore more about:
@@ -146,7 +142,7 @@ Singapore was the country that had the most top 10 ramen varieties (`r tidy_rame
 
 ### Exploration by Country
 
-In the Rating by Country page, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries. We created a bar graph of the top 10 ramen produce countries with their counts of ramen varieties labeled on the graph. 
+For this section, we performed data analysis on the ramen variety count by country to give us an idea about the top ramen produce countries. We created a bar graph of the top 10 ramen produce countries with their counts of ramen varieties labeled on the graph. 
 ```{r, echo=FALSE, message=FALSE}
 top10_country = 
   tidy_ramen %>%
@@ -172,12 +168,9 @@ top10_country =
 top10_country
 ```
 
-Comments: The top four countries that had the most ramen varieties rated are China (n = `r tidy_ramen %>% filter(country == "China") %>% nrow()`), Japan (n = `r tidy_ramen %>% filter(country == "Japan") %>% nrow()`), USA (n = `r tidy_ramen %>% filter(country == "USA") %>% nrow()`) and South Korea (n = `r tidy_ramen %>% filter(country == "South Korea") %>% nrow()`), with over 300 varieties of ramen recorded. The number of ramen varieties produced by China far outweighs the ramen varieties from other countries.
+The top four countries that had the most ramen varieties rated are China (n = `r tidy_ramen %>% filter(country == "China") %>% nrow()`), Japan (n = `r tidy_ramen %>% filter(country == "Japan") %>% nrow()`), USA (n = `r tidy_ramen %>% filter(country == "USA") %>% nrow()`) and South Korea (n = `r tidy_ramen %>% filter(country == "South Korea") %>% nrow()`), with over 300 varieties of ramen recorded. The number of ramen varieties produced by China far outweighs the ramen varieties from other countries.  
 
-&nbsp;
-
-Initially we would love to plot ramen rating stars distribution graph on the top 3 ramen produce countries. However, after checking the bar graph result, we decided to include the top 4 ramen produce countries in the following analysis, since the counts of ramen varieties produced by the 3rd and 4th countries (USA and South Korea, with 323 and 309 respectively) are pretty close. 
-&nbsp;
+Initially we would love to plot ramen rating stars distribution graph on the top 3 ramen produce countries. However, after checking the bar graph result, we decided to include the top 4 ramen produce countries in the following analysis, since the counts of ramen varieties produced by the 3rd and 4th countries (USA and South Korea, with 323 and 309 respectively) are pretty close.  
 
 Consequently, we created a violin graph for the rating stars distribution among the top 4 ramen produce countries.
 ```{r, echo=FALSE, message=FALSE}
@@ -196,12 +189,9 @@ top4_violin =
 top4_violin
 ```
 
-Comments: According to the graph, it appears that most rated ramen varieties from China, South Korea, and USA have a peak of rating scores within 3.5 to 4 stars and a second but smaller peak at score 5. Among these four countries, Japan has a relatively higher proportion of rating scores within 4 to 5 stars.  
+According to the graph, it appears that most rated ramen varieties from China, South Korea, and USA have a peak of rating scores within 3.5 to 4 stars and a second but smaller peak at score 5. Among these four countries, Japan has a relatively higher proportion of rating scores within 4 to 5 stars.  
 
-&nbsp;
-
-Our next step was to calculate the average ramen rating stars for each country in our dataset to find the top three and bottom three countries. But before doing that, we need to check if the number of ramens rated and recorded in our dataset is large enough to present the average ramen rating stars for each country. 
-&nbsp;
+Our next step was to calculate the average ramen rating stars for each country in our dataset to find the top three and bottom three countries. But before doing that, we need to check if the number of ramens rated and recorded in our dataset is large enough to present the average ramen rating stars for each country.  
 
 To do this, we ploted a scatter plot of average rating stars vs. count of ramen varieties for each country.
 ```{r, echo=FALSE, message=FALSE}
@@ -250,10 +240,9 @@ avg_country_bar =
 avg_country_bar
 ```
 
-Comments: Among countries with 30 or more varieties rated, it appears that the top 3 average rating countries have average rating scores around 4.1 out of 5 stars. Malaysia had the highest average rating score (`r avg_num_country %>% filter(country == "Malaysia") %>% pull(avg)` out of 5) among all countries, followed by Singapore (`r avg_num_country %>% filter(country == "Singapore") %>% pull(avg)` out of 5) and Indonesia (`r avg_num_country %>% filter(country == "Indonesia") %>% pull(avg)` out of 5). These countries produced ramens with higher quality (better taste) despite that they were not the top ramen producers in varieties.  
+Among countries with 30 or more varieties rated, it appears that the top 3 average rating countries have average rating scores around 4.1 out of 5 stars. Malaysia had the highest average rating score (`r avg_num_country %>% filter(country == "Malaysia") %>% pull(avg)` out of 5) among all countries, followed by Singapore (`r avg_num_country %>% filter(country == "Singapore") %>% pull(avg)` out of 5) and Indonesia (`r avg_num_country %>% filter(country == "Indonesia") %>% pull(avg)` out of 5). These countries produced ramens with higher quality (better taste) despite that they were not the top ramen producers in varieties.  
 
 On the contrary, bottom 3 average rating countries are Canada (`r avg_num_country %>% filter(country == "Canada") %>% pull(avg)` out of 5), UK (`r avg_num_country %>% filter(country == "UK") %>% pull(avg)` out of 5), and Vietnam (`r avg_num_country %>% filter(country == "Vietnam") %>% pull(avg)` out of 5).
-
 
 ### Exploration by Brand
 
@@ -360,19 +349,124 @@ prct_plot
 All of these 5 brands have at least one ramen variety that was rated as 5 stars. *Paldo* has the highest percentage of ramen varieties rated as 5 stars, while *Maruchan* has the lowest percentage of ramen varieties rated as 5 stars.
 
 ### Exploration by Type/Style
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the rating of ramen by Hans - similar to that coke in can is always better than coke in plastic bottle.  
 
-&nbsp;
+First, we created a bar plot for the number of rated varieties in each style.
 
-## Additional Analysis
+```{r}
+most_various = 
+  tidy_ramen %>%
+  group_by(style) %>%
+  summarize(num_varieties = n()) %>%
+  mutate(
+    style = fct_reorder(style, num_varieties)
+  ) %>%
+  plot_ly(x = ~style, y = ~num_varieties, color = ~style, type = "bar", 
+          text = ~num_varieties, textposition = "outside",
+          marker = list(color = 'viridis', 
+                        line = list(color = 'viridis', width = 1.5))) %>% 
+  layout(title = "Most common packing of ramen",
+         xaxis = list(title = "Styles"),
+         yaxis = list(title = "Number of Product")) 
+
+most_various
+```
+
+We see that the style of mast varieties rated is Pack, with `r tidy_ramen %>% filter(style == "Pack") %>% nrow()` varieties rated in the dataset. Since there are too few ramen varieties in Bar (`r tidy_ramen %>% filter(style == "Bar") %>% nrow()`), Can ((`r tidy_ramen %>% filter(style == "Can") %>% nrow()`)), and Box (`r tidy_ramen %>% filter(style == "Box") %>% nrow()`), we'll exclude these styles in the following analysis.  
+
+Then, we plotted a box plot for the distribution of ramen rating by packaging style.
+
+```{r}
+four_styles = 
+  tidy_ramen %>%
+  filter(style == c("Bowl", "Cup", "Pack", "Tray")) 
+
+distri_various = 
+  four_styles %>%
+  drop_na(stars) %>%
+  ggplot(aes(x = style, y = stars, color = style)) + 
+  geom_boxplot() +
+  labs(
+    title = "Rating Distribution",
+    x = "Ramen Style",
+    y = "Rating Stars"
+  )
+
+distri_various
+```
+
+According to the box plot, we can see that most ramens in the four styles have rating scores higher than 3 stars out of 5. The medians of stars for Bowl, Cup, Pack, and Tray ramens are similar (around 3.7 stars). Among the four styles, generally, bowl ramens tend to have higher rating scores comparing to others, while cup ramens seem to have lower rating scores, despite that pack ramens have the most outliers with low rating scores.  
+
+Finally, we tried to fit a linear model with stars as an outcome depending on style.
+
+```{r}
+lm_style = 
+  lm(stars ~ style, data = four_styles) 
+
+lm_style_output =   
+  lm_style %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  mutate(term = str_replace(term, "^style", "Style: ")) %>% 
+  kable(digits = 3)
+
+lm_style_output
+```
+
+From the results (reference category: Bowl), we can see that the rating scores are not statistically significantly different across these 4 styles at a significant level of 0.05.  
+
+To be cautious in having conclusions, we also plotted a violin graph for model diagnostics.
+
+```{r}
+lm_style_diag = 
+  four_styles %>% 
+  modelr::add_residuals(lm_style) %>% 
+  ggplot(aes(x = style, y = resid, fill = style)) +
+    geom_violin() +
+    labs(
+      x = "Style",
+      y = "Residual",
+      title = "Residual vs. Style"
+    )
+
+lm_style_diag
+```
+
+From the violin graph, we can see that the residual distribution by styles is generally left-skewed, indicating that linear regression model might not be an appropriate approach for the question based on this dataset because of the assumption violation.  
+The reasons for the violation may include:  
+
+* the dataset of ramen varieties is actually not a random sample from all varieties all over the world;
+* the underlying distribution of ramen ratings is probably not normal, since the ratings were just based on the rater's personal preference.
 
 &nbsp;
 
 ## Discussion
+### Top 10 Ramens
+Results from the analysis on top 10 ramens indicate that Singapore was really good at producing instant noodles, or at least Hans really appreciate instant noodles with Singapore, or more generally, Southeast Asia taste from 2012 to 2016. It would be hard to generalize the conclusion, since the rating was actually based on Hans' personal preference. One of our group members, or me, doesn't agree with Hans on this topic.  
 
-From our study results on ramen rating by country, we conclude that most ramens rated in our dataset were produced by Asian countries (8 out of 10 of the top ramen produce countries are from Asia). This makes sense because Asian countries are the major consumers of ramens. 
+### By Country
+From our study results on ramen rating by country, we conclude that most ramens rated in our dataset were produced by Asian countries (8 out of 10 of the top ramen produce countries are from Asia). This makes sense because Asian countries are the major consumers of ramens.  
 
-We also noticed that Malaysia, Singapore, and Indonesia had the highest average ramen rating stars (all above 4 stars out of 5). This finding aligns with the result from TOP TEN analysis, where we found that Singapore had the most top 10 ramen varieties, followed by Malaysia and Japan. 
+We also noticed that Malaysia, Singapore, and Indonesia had the highest average ramen rating stars (all above 4 stars out of 5). This finding aligns with the result from the analysis on top 10 ramens, where we found that Singapore had the most top 10 ramen varieties.  
 
-However, we are worried that the result from this dataset might be biased, considering that some countries in the dataset didn't have enough ramen varieties recorded and we had to exclude them from our analysis. Further analysis is needed on a dataset with larger sample size. 
+However, we are worried about that the result from this dataset might be biased, considering that some countries in the dataset didn't have enough ramen varieties recorded and we had to exclude them from our analysis.  
+
+### By Brand
+From our study results on ramen rating by brand, we conclude that the ramens produced by the 5 brands with most varieties rated in the dataset, *Nissin*, *Nongshim*, *Maruchan*, *Mama*, and *Paldo*, were generally favored by Hans, with over 75% of ramens produced by these 5 brands rated 3 or more stars. This is not surprising, since we believe that having many ramen varieties can somehow indicate professionalism in making instant noodles.  
+
+### By Type/Style
+We fitted a linear regression model to compare the rating across ramens in different types/styles, excluding some types with too few varieties recorded in the dataset. However, there seems to be assumption violation, because the residual distribution by styles is left-skewed.  
+The reasons for the violation may include:  
+
+* The dataset of ramen varieties is actually not a random sample from all varieties all over the world.
+* The underlying distribution of ramen ratings is probably not normal, since the ratings were just based on the rater's personal preference.
+
+### Limitations
+As also mentioned above, the limitations of this project may include:  
+
+* Sample size of certain strata (country/brand/style) is too small for us to conduct analysis.
+* The ramen rating was based on Hans' personal preference and might be hard to generalize.
+* Actually, the dataset is not a random sample from all ramen varieties in the world. The rated varieties were from convenience sampling.
+* The uncertainty of the underlying distribution keeps us away from conducting parametric analysis.
 
 

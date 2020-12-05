@@ -1,5 +1,5 @@
 ---
-title: "Rating by Countries"
+title: "Rating by Country"
 output: 
   html_document:
     toc: true
