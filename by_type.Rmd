@@ -1,5 +1,5 @@
 ---
-title: "Rating By Type/Style"
+title: "Rating By Style"
 output: 
   html_document:
     toc: true
@@ -37,7 +37,7 @@ tidy_ramen =
 ```
 
 ## Background Introduction 
-In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging types/styles. We wonder if different packaging styles may affect the rating of ramen by Hans - similar to that coke in can is always better than coke in plastic bottle. In the following adventure, let's see if the packaging style makes a difference!
+In this Ramen dataset, there are `r nrow(count(tidy_ramen, style))` ramen packaging styles. We wonder if different packaging styles may affect the rating of ramen by Hans - similar to that coke in can is always better than coke in plastic bottle. In the following adventure, let's see if the packaging style makes a difference!
 
 <center><img src="./pictures/package.jpg"></center>
 
