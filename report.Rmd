@@ -40,15 +40,11 @@ All members of the group are noodles lovers and want to look for the best instan
 ## Initial Questions
 * Primarily, we just wanted to know what are the best and worst instant noodles according to the dataset.
 * After we looked further into the dataset, we thought it would also be interesting if we explore more about:
-  * TOP TEN
-    - Which country/brand produced the greatest number of top 10 ramens?
-    - Which 5 brands produced the most varieties? What are the rating stars distribution of these 5 brands? For these 5 brands, what are their percentage of 5-Stars ramen?
-  
-  &nbsp;
-  
-  * BY COUNTRY
-    - Which countries produced the most varieties of ramens? What is the ramen rating stars distribution among the top ramen produce countries?
-    - What are top 3 countries that have the highest average ramen rating stars recorded in our dataset? What about the bottom 3? 
+  * Which country/brand produced the greatest number of top 10 ramens?
+  * Which countries produced the most varieties of ramens? What is the ramen rating distribution of the top ramen produce countries?
+  * What are the top countries that have the highest average ramen rating stars recorded in our dataset? What about the bottom ones? 
+  * Which 5 brands produced the most varieties? What are the rating stars distribution of these 5 brands? For these 5 brands, what are their percentage of 5-star ramens?
+  * Would the package style of ramen affect the rating?
 
 &nbsp;
 
